@@ -10,36 +10,42 @@
 - 功能测试与性能测试自动分离
 - 输出Excel文档，直接可用
 
-## 安装要求
+## 安装方式
 
-### 方式一：使用Claude Code（推荐）
+### 最简单的安装
 
-1. **安装Claude Code**
-   ```bash
-   # 访问 https://claude.ai/download 安装Claude Code
-   ```
+1. 克隆或下载这个仓库
+2. 在AI编程助手中打开这个目录
+3. 告诉AI："请按照prompts/extraction-guide.md的流程，帮我从需求文档生成测试用例"
 
-2. **安装Python依赖**（可选，用于Excel导出）
-   ```bash
-   cd test-case-engine
-   pip install -e .
-   ```
+**不需要安装任何东西**，skill就是prompt文件，AI直接读取即可。
 
-### 方式二：使用OpenCode（不联网环境）
+### 具体步骤
 
-1. **复制仓库到目标服务器**
-   ```bash
-   scp -r test-case-engine user@target-server:/path/to/
-   ```
+**步骤1：获取代码**
+```bash
+git clone https://github.com/HardToThinkAUsername/test-case-engine.git
+```
 
-2. **配置OpenCode读取skill**
-   - 将 `prompts/` 目录路径配置到OpenCode
-   - 或直接在对话中指定文件路径
+**步骤2：告诉AI如何使用**
+```
+请读取 test-case-engine/prompts/extraction-guide.md，
+然后按照流程帮我从需求文档生成测试用例。
+我的需求文档路径是：/path/to/your-prd.md
+```
 
-3. **在OpenCode对话中使用**
-   ```
-   请读取 /path/to/test-case-engine/prompts/constitution.md 和 extraction-guide.md，然后按照流程执行
-   ```
+**步骤3：AI会自动执行**
+- 读取skill文件
+- 按照流程执行
+- 生成业务树、测试用例
+
+### 可选：安装Python依赖
+
+如果你需要CLI命令或Excel导出功能：
+```bash
+cd test-case-engine
+pip install -e .
+```
 
 ## 快速开始
 
