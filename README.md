@@ -66,6 +66,11 @@ test-case-engine generate
 
 # 导出Excel
 test-case-engine export --output /path/to/output.xlsx
+
+# 查看说明
+test-case-engine explain
+test-case-engine explain constitution
+test-case-engine explain model
 ```
 
 ### 方式二：在Claude对话框中使用（推荐）
