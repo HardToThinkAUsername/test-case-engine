@@ -117,7 +117,7 @@ $ARGUMENTS
   L3 异常模板: {count}个
   L4 想象力场景: {count}个
 
-**下一步**: 执行 /test-case.generate 生成测试用例
+**下一步**: 请确认测试大纲，或者说"继续"生成测试用例
 ```
 
 ## Done When

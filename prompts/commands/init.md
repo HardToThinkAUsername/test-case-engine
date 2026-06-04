@@ -57,7 +57,7 @@ $ARGUMENTS
 **项目名称**: {project_name}
 **宪法文件**: .test-case/constitution.md
 
-**下一步**: 执行 /test-case.model --document <需求文档路径> 开始业务建模
+**下一步**: 请提供需求文档路径，我来帮你开始业务建模
 ```
 
 ## Done When

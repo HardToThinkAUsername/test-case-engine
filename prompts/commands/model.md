@@ -81,7 +81,7 @@ $ARGUMENTS
 
 **广度追问**: {rounds}轮, {converged}
 
-**下一步**: 执行 /test-case.review 进行需求评审
+**下一步**: 请告诉我是否需要调整业务树，或者说"继续"进入需求评审
 ```
 
 ## Done When

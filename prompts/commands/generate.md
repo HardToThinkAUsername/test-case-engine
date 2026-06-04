@@ -128,7 +128,7 @@ $ARGUMENTS
 **覆盖验证**: ✅
 **去重验证**: ✅
 
-**下一步**: 执行 /test-case.export 导出Excel文档
+**下一步**: 请确认测试用例，或者说"继续"导出Excel文档
 ```
 
 ## Done When
