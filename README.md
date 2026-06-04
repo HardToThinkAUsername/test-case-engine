@@ -12,6 +12,8 @@
 
 ## 安装要求
 
+### 方式一：使用Claude Code（推荐）
+
 1. **安装Claude Code**
    ```bash
    # 访问 https://claude.ai/code 安装Claude Code
@@ -21,6 +23,22 @@
    ```bash
    cd test-case-engine
    pip install -e .
+   ```
+
+### 方式二：使用OpenCode（不联网环境）
+
+1. **复制仓库到目标服务器**
+   ```bash
+   scp -r test-case-engine user@target-server:/path/to/
+   ```
+
+2. **配置OpenCode读取skill**
+   - 将 `prompts/` 目录路径配置到OpenCode
+   - 或直接在对话中指定文件路径
+
+3. **在OpenCode对话中使用**
+   ```
+   请读取 /path/to/test-case-engine/prompts/constitution.md 和 extraction-guide.md，然后按照流程执行
    ```
 
 ## 快速开始
@@ -80,7 +98,12 @@ test-case-engine/
 │   ├── cli.py                # CLI命令
 │   ├── session_service.py    # 会话管理
 │   └── excel_exporter.py     # Excel导出
-└── docs/                      # 文档
+├── SKILL.md                  # Skill元数据（OpenCode需要）
+└── examples/output/          # 示例输出
+    ├── business_tree.json    # 业务树示例
+    ├── outline.json          # 测试大纲示例
+    ├── test_cases.json       # 测试用例示例
+    └── test_cases.xlsx       # Excel示例
 ```
 
 ## 使用流程
@@ -106,12 +129,13 @@ Phase 5: 导出
 
 参考 `examples/online-shop-prd.md` 查看示例需求文档。
 
-执行后的输出保存在 `.test-case/` 目录：
+示例输出保存在 `examples/output/` 目录：
 - `business_tree.json` - 业务树
-- `review_result.json` - 评审结果
 - `outline.json` - 测试大纲
 - `test_cases.json` - 测试用例
 - `test_cases.xlsx` - Excel文档
+
+实际使用时，输出保存在 `.test-case/` 目录。
 
 ## 常见问题
 

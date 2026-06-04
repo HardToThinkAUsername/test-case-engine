@@ -59,6 +59,11 @@ generate [--module <name>]
 export [--output <path>]
 ```
 
+## 示例
+
+See `examples/online-shop-prd.md` for a sample requirement document.
+See `examples/output/` for sample outputs (business_tree.json, outline.json, test_cases.json, test_cases.xlsx).
+
 ## Execution Rules
 
 1. Always read constitution.md first
