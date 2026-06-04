@@ -16,10 +16,10 @@
 
 1. **安装Claude Code**
    ```bash
-   # 访问 https://claude.ai/code 安装Claude Code
+   # 访问 https://claude.ai/download 安装Claude Code
    ```
 
-2. **安装Python依赖**
+2. **安装Python依赖**（可选，用于Excel导出）
    ```bash
    cd test-case-engine
    pip install -e .
@@ -78,10 +78,17 @@ test-case-engine explain model
 1. 打开Claude Code
 2. 告诉Claude：
    ```
-   请按照test-case-engine的流程，帮我从需求文档生成测试用例
+   请读取 /path/to/test-case-engine/prompts/extraction-guide.md，
+   然后按照流程帮我从需求文档生成测试用例。
+   我的需求文档是：/path/to/your-prd.md
    ```
 3. Claude会读取skill文件，按照流程执行
 4. 你可以通过自然语言调整业务树、修改评审结果
+
+**支持的文档格式**：
+- `.md` / `.txt` → 直接读取
+- `.docx` → Claude会提示你转换为.txt，或用Python脚本提取
+- `.pdf` → Claude会提示你复制粘贴内容
 
 ## 文件结构
 
@@ -110,6 +117,16 @@ test-case-engine/
     ├── test_cases.json       # 测试用例示例
     └── test_cases.xlsx       # Excel示例
 ```
+
+## SKILL.md说明
+
+`SKILL.md`是skill的元数据文件，包含：
+- skill的名称和描述
+- 核心原则
+- 执行流程
+- 使用说明
+
+OpenCode等AI编程助手会读取这个文件来识别和加载skill。
 
 ## 使用流程
 
