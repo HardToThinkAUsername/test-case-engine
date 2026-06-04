@@ -1,0 +1,1881 @@
+{
+  "test_cases": [
+    {
+      "id": "TC001",
+      "title": "手机号注册成功",
+      "priority": "P1",
+      "type": "positive",
+      "source": "L1主路径 | TP-A001",
+      "module": "用户注册与登录",
+      "preconditions": [
+        "未注册用户",
+        "手机可接收短信"
+      ],
+      "steps": [
+        "1. 进入注册页面",
+        "2. 输入有效手机号",
+        "3. 获取并输入验证码",
+        "4. 设置符合要求的密码（≥8位，含字母和数字）",
+        "5. 点击注册"
+      ],
+      "expected_result": "注册成功，自动登录并跳转首页",
+      "related_requirement": "3.1 用户注册与登录",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC002",
+      "title": "邮箱注册成功",
+      "priority": "P1",
+      "type": "positive",
+      "source": "L1主路径 | TP-A002",
+      "module": "用户注册与登录",
+      "preconditions": [
+        "未注册用户",
+        "邮箱可用"
+      ],
+      "steps": [
+        "1. 进入注册页面",
+        "2. 选择邮箱注册",
+        "3. 输入有效邮箱",
+        "4. 设置符合要求的密码",
+        "5. 点击注册"
+      ],
+      "expected_result": "注册成功，自动登录并跳转首页",
+      "related_requirement": "3.1 用户注册与登录",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC003",
+      "title": "手机验证码登录成功",
+      "priority": "P1",
+      "type": "positive",
+      "source": "L1主路径 | TP-A003",
+      "module": "用户注册与登录",
+      "preconditions": [
+        "已注册用户",
+        "手机可接收短信"
+      ],
+      "steps": [
+        "1. 进入登录页面",
+        "2. 输入已注册手机号",
+        "3. 获取并输入验证码",
+        "4. 点击登录"
+      ],
+      "expected_result": "登录成功，会话保持7天免登录",
+      "related_requirement": "3.1 用户注册与登录",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC004",
+      "title": "邮箱密码登录成功",
+      "priority": "P1",
+      "type": "positive",
+      "source": "L1主路径 | TP-A004",
+      "module": "用户注册与登录",
+      "preconditions": [
+        "已注册用户",
+        "密码正确"
+      ],
+      "steps": [
+        "1. 进入登录页面",
+        "2. 输入已注册邮箱",
+        "3. 输入正确密码",
+        "4. 点击登录"
+      ],
+      "expected_result": "登录成功，会话保持7天免登录",
+      "related_requirement": "3.1 用户注册与登录",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC005",
+      "title": "注册时格式错误",
+      "priority": "P1",
+      "type": "negative",
+      "source": "L2分支路径 | TP-A005",
+      "module": "用户注册与登录",
+      "preconditions": [
+        "未注册用户"
+      ],
+      "steps": [
+        "1. 进入注册页面",
+        "2. 输入格式错误的手机号（如12345）或邮箱（如abc）",
+        "3. 点击获取验证码或注册"
+      ],
+      "expected_result": "提示格式错误，要求重新输入",
+      "related_requirement": "3.1 用户注册与登录",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC006",
+      "title": "手机号已注册",
+      "priority": "P1",
+      "type": "negative",
+      "source": "L2分支路径 | TP-A006",
+      "module": "用户注册与登录",
+      "preconditions": [
+        "手机号已被注册"
+      ],
+      "steps": [
+        "1. 进入注册页面",
+        "2. 输入已注册的手机号",
+        "3. 点击获取验证码"
+      ],
+      "expected_result": "提示'该手机号已注册'",
+      "related_requirement": "3.1 用户注册与登录",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC007",
+      "title": "注册验证码错误",
+      "priority": "P1",
+      "type": "negative",
+      "source": "L2分支路径 | TP-A007",
+      "module": "用户注册与登录",
+      "preconditions": [
+        "已获取验证码"
+      ],
+      "steps": [
+        "1. 进入注册页面",
+        "2. 输入手机号并获取验证码",
+        "3. 输入错误的验证码",
+        "4. 点击注册"
+      ],
+      "expected_result": "提示'验证码错误，请重新输入'",
+      "related_requirement": "3.1 用户注册与登录",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC008",
+      "title": "密码强度不足",
+      "priority": "P1",
+      "type": "negative",
+      "source": "L2分支路径 | TP-A008",
+      "module": "用户注册与登录",
+      "preconditions": [
+        "未注册用户"
+      ],
+      "steps": [
+        "1. 进入注册页面",
+        "2. 输入有效手机号",
+        "3. 设置不符合要求的密码（如纯数字12345678，或少于8位）",
+        "4. 点击注册"
+      ],
+      "expected_result": "提示密码不符合要求（至少8位，包含字母和数字）",
+      "related_requirement": "3.1 用户注册与登录",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC009",
+      "title": "账户已被锁定",
+      "priority": "P1",
+      "type": "negative",
+      "source": "L2分支路径 | TP-A009",
+      "module": "用户注册与登录",
+      "preconditions": [
+        "账户已因5次密码错误被锁定"
+      ],
+      "steps": [
+        "1. 进入登录页面",
+        "2. 输入被锁定账户的邮箱",
+        "3. 输入任意密码",
+        "4. 点击登录"
+      ],
+      "expected_result": "提示账户已锁定，30分钟后重试",
+      "related_requirement": "3.1 用户注册与登录",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC010",
+      "title": "登录密码错误（<5次）",
+      "priority": "P1",
+      "type": "negative",
+      "source": "L2分支路径 | TP-A010",
+      "module": "用户注册与登录",
+      "preconditions": [
+        "已注册用户",
+        "未被锁定"
+      ],
+      "steps": [
+        "1. 进入登录页面",
+        "2. 输入正确邮箱",
+        "3. 输入错误密码",
+        "4. 点击登录",
+        "5. 重复3次输入错误密码"
+      ],
+      "expected_result": "每次提示'密码错误，还剩N次机会'，次数递减",
+      "related_requirement": "3.1 用户注册与登录",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC011",
+      "title": "登录密码错误5次触发锁定",
+      "priority": "P1",
+      "type": "negative",
+      "source": "L2分支路径 | TP-A011",
+      "module": "用户注册与登录",
+      "preconditions": [
+        "已注册用户",
+        "未被锁定"
+      ],
+      "steps": [
+        "1. 进入登录页面",
+        "2. 输入正确邮箱",
+        "3. 连续5次输入错误密码"
+      ],
+      "expected_result": "第5次错误后提示账户已锁定30分钟",
+      "related_requirement": "3.1 用户注册与登录",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC012",
+      "title": "注册输入空手机号",
+      "priority": "P2",
+      "type": "negative",
+      "source": "L3异常模板 | TP-A012",
+      "module": "用户注册与登录",
+      "preconditions": [
+        "未注册用户"
+      ],
+      "steps": [
+        "1. 进入注册页面",
+        "2. 不输入手机号直接点击获取验证码"
+      ],
+      "expected_result": "提示手机号不能为空",
+      "related_requirement": "3.1 用户注册与登录",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC013",
+      "title": "注册输入超长密码",
+      "priority": "P2",
+      "type": "negative",
+      "source": "L3异常模板 | TP-A013",
+      "module": "用户注册与登录",
+      "preconditions": [
+        "未注册用户"
+      ],
+      "steps": [
+        "1. 进入注册页面",
+        "2. 输入有效手机号",
+        "3. 输入超过128位的密码",
+        "4. 点击注册"
+      ],
+      "expected_result": "系统正确处理超长输入，不崩溃，提示密码格式错误或截断",
+      "related_requirement": "3.1 用户注册与登录",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC014",
+      "title": "登录输入空密码",
+      "priority": "P2",
+      "type": "negative",
+      "source": "L3异常模板 | TP-A014",
+      "module": "用户注册与登录",
+      "preconditions": [
+        "已注册用户"
+      ],
+      "steps": [
+        "1. 进入登录页面",
+        "2. 输入邮箱",
+        "3. 不输入密码直接点击登录"
+      ],
+      "expected_result": "提示密码不能为空",
+      "related_requirement": "3.1 用户注册与登录",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC015",
+      "title": "注册时短信发送失败",
+      "priority": "P2",
+      "type": "negative",
+      "source": "L3异常模板 | TP-A015",
+      "module": "用户注册与登录",
+      "preconditions": [
+        "短信服务异常"
+      ],
+      "steps": [
+        "1. 进入注册页面",
+        "2. 输入有效手机号",
+        "3. 点击获取验证码"
+      ],
+      "expected_result": "提示短信发送失败，请稍后重试",
+      "related_requirement": "3.1 用户注册与登录",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC016",
+      "title": "登录时短信发送失败",
+      "priority": "P2",
+      "type": "negative",
+      "source": "L3异常模板 | TP-A016",
+      "module": "用户注册与登录",
+      "preconditions": [
+        "短信服务异常"
+      ],
+      "steps": [
+        "1. 进入登录页面",
+        "2. 输入手机号",
+        "3. 点击获取验证码"
+      ],
+      "expected_result": "提示短信发送失败，请稍后重试",
+      "related_requirement": "3.1 用户注册与登录",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC017",
+      "title": "账户锁定后尝试验证码登录绕过",
+      "priority": "P2",
+      "type": "boundary",
+      "source": "L4想象力场景 | TP-A017",
+      "module": "用户注册与登录",
+      "preconditions": [
+        "账户已因密码错误被锁定"
+      ],
+      "steps": [
+        "1. 使用被锁定账户的手机号",
+        "2. 通过验证码方式尝试登录"
+      ],
+      "expected_result": "账户锁定对所有登录方式生效，验证码登录也被拒绝",
+      "related_requirement": "3.1 用户注册与登录",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC018",
+      "title": "多设备同时登录",
+      "priority": "P3",
+      "type": "boundary",
+      "source": "L4想象力场景 | TP-A018",
+      "module": "用户注册与登录",
+      "preconditions": [
+        "已登录用户"
+      ],
+      "steps": [
+        "1. 在设备A上登录",
+        "2. 在设备B上使用相同账号登录"
+      ],
+      "expected_result": "系统允许多设备同时登录，或踢出旧会话（取决于策略）",
+      "related_requirement": "3.1 用户注册与登录",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC019",
+      "title": "验证码有效期内多次使用",
+      "priority": "P3",
+      "type": "boundary",
+      "source": "L4想象力场景 | TP-A019",
+      "module": "用户注册与登录",
+      "preconditions": [
+        "已获取验证码"
+      ],
+      "steps": [
+        "1. 获取验证码",
+        "2. 使用验证码完成登录",
+        "3. 再次使用同一验证码尝试登录"
+      ],
+      "expected_result": "验证码为一次性使用，第二次使用被拒绝",
+      "related_requirement": "3.1 用户注册与登录",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC020",
+      "title": "7天免登录Session过期后跳转",
+      "priority": "P3",
+      "type": "boundary",
+      "source": "L4想象力场景 | TP-A020",
+      "module": "用户注册与登录",
+      "preconditions": [
+        "已登录超过7天"
+      ],
+      "steps": [
+        "1. 登录后等待超过7天",
+        "2. 访问需要登录的页面"
+      ],
+      "expected_result": "Session过期，自动跳转登录页面",
+      "related_requirement": "3.1 用户注册与登录",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC021",
+      "title": "查看商品列表（分页）",
+      "priority": "P1",
+      "type": "positive",
+      "source": "L1主路径 | TP-B001",
+      "module": "商品浏览",
+      "preconditions": [
+        "商品数据存在"
+      ],
+      "steps": [
+        "1. 进入商品列表页",
+        "2. 查看第1页商品",
+        "3. 点击下一页",
+        "4. 查看第2页商品"
+      ],
+      "expected_result": "每页显示20条商品，分页正常切换",
+      "related_requirement": "3.2 商品浏览",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC022",
+      "title": "按分类筛选商品",
+      "priority": "P1",
+      "type": "positive",
+      "source": "L1主路径 | TP-B002",
+      "module": "商品浏览",
+      "preconditions": [
+        "商品有分类标签"
+      ],
+      "steps": [
+        "1. 进入商品列表页",
+        "2. 选择某一分类",
+        "3. 查看筛选结果"
+      ],
+      "expected_result": "仅显示该分类下的商品",
+      "related_requirement": "3.2 商品浏览",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC023",
+      "title": "按价格升序排序",
+      "priority": "P1",
+      "type": "positive",
+      "source": "L1主路径 | TP-B003",
+      "module": "商品浏览",
+      "preconditions": [
+        "多个商品价格不同"
+      ],
+      "steps": [
+        "1. 进入商品列表页",
+        "2. 选择按价格升序排序"
+      ],
+      "expected_result": "商品按价格从低到高排列",
+      "related_requirement": "3.2 商品浏览",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC024",
+      "title": "按价格降序排序",
+      "priority": "P1",
+      "type": "positive",
+      "source": "L1主路径 | TP-B004",
+      "module": "商品浏览",
+      "preconditions": [
+        "多个商品价格不同"
+      ],
+      "steps": [
+        "1. 进入商品列表页",
+        "2. 选择按价格降序排序"
+      ],
+      "expected_result": "商品按价格从高到低排列",
+      "related_requirement": "3.2 商品浏览",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC025",
+      "title": "查看有库存商品详情",
+      "priority": "P1",
+      "type": "positive",
+      "source": "L1主路径 | TP-B005",
+      "module": "商品浏览",
+      "preconditions": [
+        "商品库存>0"
+      ],
+      "steps": [
+        "1. 进入商品列表页",
+        "2. 点击有库存的商品"
+      ],
+      "expected_result": "显示商品名称、价格、描述、库存数量、图片",
+      "related_requirement": "3.2 商品浏览",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC026",
+      "title": "查看缺货商品详情",
+      "priority": "P1",
+      "type": "positive",
+      "source": "L1主路径 | TP-B006",
+      "module": "商品浏览",
+      "preconditions": [
+        "商品库存=0"
+      ],
+      "steps": [
+        "1. 进入商品列表页",
+        "2. 点击库存为0的商品"
+      ],
+      "expected_result": "显示商品详情，库存位置显示'缺货'",
+      "related_requirement": "3.2 商品浏览",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC027",
+      "title": "空分类筛选",
+      "priority": "P2",
+      "type": "negative",
+      "source": "L2分支路径 | TP-B007",
+      "module": "商品浏览",
+      "preconditions": [
+        "该分类下无商品"
+      ],
+      "steps": [
+        "1. 进入商品列表页",
+        "2. 选择一个没有商品的分类"
+      ],
+      "expected_result": "显示空列表，提示暂无商品",
+      "related_requirement": "3.2 商品浏览",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC028",
+      "title": "翻页操作",
+      "priority": "P1",
+      "type": "positive",
+      "source": "L2分支路径 | TP-B008",
+      "module": "商品浏览",
+      "preconditions": [
+        "商品超过20条"
+      ],
+      "steps": [
+        "1. 进入商品列表页",
+        "2. 点击第2页",
+        "3. 点击第1页返回"
+      ],
+      "expected_result": "翻页正常，数据正确加载",
+      "related_requirement": "3.2 商品浏览",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC029",
+      "title": "分类+排序组合筛选",
+      "priority": "P2",
+      "type": "positive",
+      "source": "L2分支路径 | TP-B009",
+      "module": "商品浏览",
+      "preconditions": [
+        "该分类下有多个商品"
+      ],
+      "steps": [
+        "1. 进入商品列表页",
+        "2. 选择某分类",
+        "3. 同时选择按价格降序排序"
+      ],
+      "expected_result": "仅显示该分类商品，且按价格降序排列",
+      "related_requirement": "3.2 商品浏览",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC030",
+      "title": "删除商品后查看详情",
+      "priority": "P2",
+      "type": "negative",
+      "source": "L3异常模板 | TP-B010",
+      "module": "商品浏览",
+      "preconditions": [
+        "商品已被删除"
+      ],
+      "steps": [
+        "1. 通过历史记录或缓存链接访问已删除商品"
+      ],
+      "expected_result": "提示商品不存在或已下架",
+      "related_requirement": "3.2 商品浏览",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC031",
+      "title": "商品列表为空",
+      "priority": "P2",
+      "type": "negative",
+      "source": "L3异常模板 | TP-B011",
+      "module": "商品浏览",
+      "preconditions": [
+        "数据库无商品数据"
+      ],
+      "steps": [
+        "1. 进入商品列表页"
+      ],
+      "expected_result": "显示空列表，提示暂无商品",
+      "related_requirement": "3.2 商品浏览",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC034",
+      "title": "添加商品到购物车",
+      "priority": "P1",
+      "type": "positive",
+      "source": "L1主路径 | TP-C001",
+      "module": "购物车",
+      "preconditions": [
+        "已登录",
+        "商品存在",
+        "库存>0"
+      ],
+      "steps": [
+        "1. 进入商品详情页",
+        "2. 选择数量",
+        "3. 点击'加入购物车'"
+      ],
+      "expected_result": "商品成功添加到购物车，购物车数量+1",
+      "related_requirement": "3.3 购物车",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC035",
+      "title": "修改购物车商品数量",
+      "priority": "P1",
+      "type": "positive",
+      "source": "L1主路径 | TP-C002",
+      "module": "购物车",
+      "preconditions": [
+        "已登录",
+        "购物车中有商品"
+      ],
+      "steps": [
+        "1. 进入购物车页面",
+        "2. 修改某商品数量为新的数量",
+        "3. 确认修改"
+      ],
+      "expected_result": "商品数量更新，小计金额自动重新计算",
+      "related_requirement": "3.3 购物车",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC036",
+      "title": "从购物车删除商品",
+      "priority": "P1",
+      "type": "positive",
+      "source": "L1主路径 | TP-C003",
+      "module": "购物车",
+      "preconditions": [
+        "已登录",
+        "购物车中有商品"
+      ],
+      "steps": [
+        "1. 进入购物车页面",
+        "2. 点击某商品的删除按钮",
+        "3. 确认删除"
+      ],
+      "expected_result": "商品从购物车移除",
+      "related_requirement": "3.3 购物车",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC037",
+      "title": "添加购物车时库存不足",
+      "priority": "P1",
+      "type": "negative",
+      "source": "L2分支路径 | TP-C004",
+      "module": "购物车",
+      "preconditions": [
+        "已登录",
+        "商品库存不足"
+      ],
+      "steps": [
+        "1. 进入商品详情页",
+        "2. 选择数量超过库存",
+        "3. 点击'加入购物车'"
+      ],
+      "expected_result": "提示库存不足，无法添加",
+      "related_requirement": "3.3 购物车",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC038",
+      "title": "修改数量超过库存",
+      "priority": "P1",
+      "type": "negative",
+      "source": "L2分支路径 | TP-C005",
+      "module": "购物车",
+      "preconditions": [
+        "已登录",
+        "购物车中有商品"
+      ],
+      "steps": [
+        "1. 进入购物车页面",
+        "2. 修改数量为超过库存的值"
+      ],
+      "expected_result": "提示库存不足，不能超过库存",
+      "related_requirement": "3.3 购物车",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC039",
+      "title": "添加购物车时库存为0",
+      "priority": "P2",
+      "type": "negative",
+      "source": "L3异常模板 | TP-C006",
+      "module": "购物车",
+      "preconditions": [
+        "已登录",
+        "商品库存=0"
+      ],
+      "steps": [
+        "1. 进入商品详情页",
+        "2. 点击'加入购物车'"
+      ],
+      "expected_result": "提示商品已缺货，无法加入购物车",
+      "related_requirement": "3.3 购物车",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC040",
+      "title": "修改数量输入负数",
+      "priority": "P2",
+      "type": "negative",
+      "source": "L3异常模板 | TP-C007",
+      "module": "购物车",
+      "preconditions": [
+        "已登录",
+        "购物车中有商品"
+      ],
+      "steps": [
+        "1. 进入购物车页面",
+        "2. 将数量修改为-1"
+      ],
+      "expected_result": "提示数量无效，不接受负数",
+      "related_requirement": "3.3 购物车",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC041",
+      "title": "修改数量输入0",
+      "priority": "P2",
+      "type": "negative",
+      "source": "L3异常模板 | TP-C008",
+      "module": "购物车",
+      "preconditions": [
+        "已登录",
+        "购物车中有商品"
+      ],
+      "steps": [
+        "1. 进入购物车页面",
+        "2. 将数量修改为0"
+      ],
+      "expected_result": "提示数量无效或自动删除该商品",
+      "related_requirement": "3.3 购物车",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC042",
+      "title": "未登录用户加入购物车",
+      "priority": "P2",
+      "type": "negative",
+      "source": "L3异常模板 | TP-C009",
+      "module": "购物车",
+      "preconditions": [
+        "未登录用户"
+      ],
+      "steps": [
+        "1. 浏览商品详情",
+        "2. 点击'加入购物车'"
+      ],
+      "expected_result": "提示请先登录，或跳转登录页面",
+      "related_requirement": "3.3 购物车",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC043",
+      "title": "两人同时添加同一商品",
+      "priority": "P2",
+      "type": "boundary",
+      "source": "L3异常模板 | TP-C010",
+      "module": "购物车",
+      "preconditions": [
+        "库存仅剩1件",
+        "两用户同时操作"
+      ],
+      "steps": [
+        "1. 用户A和用户B同时点击加入购物车同一商品"
+      ],
+      "expected_result": "一人成功，另一人提示库存不足",
+      "related_requirement": "3.3 购物车",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC044",
+      "title": "同时修改同一购物车商品数量",
+      "priority": "P2",
+      "type": "boundary",
+      "source": "L3异常模板 | TP-C011",
+      "module": "购物车",
+      "preconditions": [
+        "同一用户的两个设备同时操作"
+      ],
+      "steps": [
+        "1. 在设备A修改数量为5",
+        "2. 在设备B同时修改数量为3"
+      ],
+      "expected_result": "最终数量以最后提交为准，数据一致",
+      "related_requirement": "3.3 购物车",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC045",
+      "title": "购物车为空时点击结算",
+      "priority": "P2",
+      "type": "negative",
+      "source": "L3异常模板 | TP-C012",
+      "module": "购物车",
+      "preconditions": [
+        "购物车为空"
+      ],
+      "steps": [
+        "1. 进入购物车页面",
+        "2. 购物车无商品",
+        "3. 点击'结算'"
+      ],
+      "expected_result": "提示购物车为空，无法结算",
+      "related_requirement": "3.3 购物车",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC046",
+      "title": "购物车添加已删除商品",
+      "priority": "P2",
+      "type": "negative",
+      "source": "L3异常模板 | TP-C013",
+      "module": "购物车",
+      "preconditions": [
+        "商品已被删除"
+      ],
+      "steps": [
+        "1. 通过缓存或历史记录尝试添加已删除商品到购物车"
+      ],
+      "expected_result": "提示商品不存在",
+      "related_requirement": "3.3 购物车",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC047",
+      "title": "商品下架后购物车仍存在",
+      "priority": "P3",
+      "type": "boundary",
+      "source": "L4想象力场景 | TP-C014",
+      "module": "购物车",
+      "preconditions": [
+        "购物车中有商品，随后商品被下架"
+      ],
+      "steps": [
+        "1. 将商品加入购物车",
+        "2. 管理员下架该商品",
+        "3. 用户查看购物车"
+      ],
+      "expected_result": "购物车中显示该商品已下架，不可结算",
+      "related_requirement": "3.3 购物车",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC048",
+      "title": "加入购物车1小时后下单（库存已变）",
+      "priority": "P3",
+      "type": "boundary",
+      "source": "L4想象力场景 | TP-C015",
+      "module": "购物车",
+      "preconditions": [
+        "加入时库存充足，之后库存变化"
+      ],
+      "steps": [
+        "1. 将商品加入购物车（库存10）",
+        "2. 等待1小时，其他用户买走大量库存（库存剩2）",
+        "3. 选择该商品提交订单"
+      ],
+      "expected_result": "下单时重新校验库存，若库存不足则提示",
+      "related_requirement": "3.3 购物车",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC049",
+      "title": "购物车100件商品结算",
+      "priority": "P3",
+      "type": "boundary",
+      "source": "L4想象力场景 | TP-C016",
+      "module": "购物车",
+      "preconditions": [
+        "购物车中有100件商品"
+      ],
+      "steps": [
+        "1. 将100件不同商品加入购物车",
+        "2. 全选并点击结算"
+      ],
+      "expected_result": "正常结算，订单金额计算正确",
+      "related_requirement": "3.3 购物车",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC050",
+      "title": "提交订单成功",
+      "priority": "P1",
+      "type": "positive",
+      "source": "L1主路径 | TP-D001",
+      "module": "下单与支付",
+      "preconditions": [
+        "已登录",
+        "购物车非空",
+        "库存充足"
+      ],
+      "steps": [
+        "1. 进入购物车",
+        "2. 选择商品",
+        "3. 填写收货地址",
+        "4. 选择支付方式",
+        "5. 点击提交订单"
+      ],
+      "expected_result": "订单创建成功，状态为待支付",
+      "related_requirement": "3.4 下单与支付",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC051",
+      "title": "支付宝支付成功",
+      "priority": "P1",
+      "type": "positive",
+      "source": "L1主路径 | TP-D002",
+      "module": "下单与支付",
+      "preconditions": [
+        "已提交订单",
+        "选择支付宝"
+      ],
+      "steps": [
+        "1. 在订单确认页选择支付宝",
+        "2. 跳转支付宝完成支付",
+        "3. 支付成功返回商城"
+      ],
+      "expected_result": "订单状态变为已支付，库存扣减",
+      "related_requirement": "3.4 下单与支付",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC052",
+      "title": "微信支付成功",
+      "priority": "P1",
+      "type": "positive",
+      "source": "L1主路径 | TP-D003",
+      "module": "下单与支付",
+      "preconditions": [
+        "已提交订单",
+        "选择微信支付"
+      ],
+      "steps": [
+        "1. 在订单确认页选择微信支付",
+        "2. 扫码或确认支付",
+        "3. 支付成功返回商城"
+      ],
+      "expected_result": "订单状态变为已支付，库存扣减",
+      "related_requirement": "3.4 下单与支付",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC053",
+      "title": "支付超时自动关闭",
+      "priority": "P1",
+      "type": "positive",
+      "source": "L1主路径 | TP-D004",
+      "module": "下单与支付",
+      "preconditions": [
+        "已提交订单，未支付"
+      ],
+      "steps": [
+        "1. 提交订单后不支付",
+        "2. 等待超过30分钟"
+      ],
+      "expected_result": "订单自动关闭，状态变为已关闭",
+      "related_requirement": "3.4 下单与支付",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC054",
+      "title": "重复支付拦截",
+      "priority": "P1",
+      "type": "positive",
+      "source": "L1主路径 | TP-D005",
+      "module": "下单与支付",
+      "preconditions": [
+        "订单已支付成功"
+      ],
+      "steps": [
+        "1. 订单已支付成功",
+        "2. 再次发起支付请求"
+      ],
+      "expected_result": "系统自动拦截，不重复扣款",
+      "related_requirement": "3.4 下单与支付",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC055",
+      "title": "提交订单时库存不足",
+      "priority": "P1",
+      "type": "negative",
+      "source": "L2分支路径 | TP-D006",
+      "module": "下单与支付",
+      "preconditions": [
+        "已登录",
+        "购物车商品库存不足"
+      ],
+      "steps": [
+        "1. 购物车中有商品",
+        "2. 提交订单时库存已被其他用户买完"
+      ],
+      "expected_result": "提示'库存不足，无法下单'",
+      "related_requirement": "3.4 下单与支付",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC056",
+      "title": "支付失败",
+      "priority": "P1",
+      "type": "negative",
+      "source": "L2分支路径 | TP-D007",
+      "module": "下单与支付",
+      "preconditions": [
+        "已提交订单"
+      ],
+      "steps": [
+        "1. 发起支付",
+        "2. 支付失败（余额不足/支付取消）"
+      ],
+      "expected_result": "提示'支付失败，请重试'，订单保持待支付状态",
+      "related_requirement": "3.4 下单与支付",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC057",
+      "title": "支付失败后重试成功",
+      "priority": "P2",
+      "type": "positive",
+      "source": "L2分支路径 | TP-D008",
+      "module": "下单与支付",
+      "preconditions": [
+        "支付失败后重试"
+      ],
+      "steps": [
+        "1. 首次支付失败",
+        "2. 更换支付方式或充值后重试",
+        "3. 支付成功"
+      ],
+      "expected_result": "订单状态变为已支付，库存扣减",
+      "related_requirement": "3.4 下单与支付",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC058",
+      "title": "超时关闭后再次支付",
+      "priority": "P2",
+      "type": "negative",
+      "source": "L2分支路径 | TP-D009",
+      "module": "下单与支付",
+      "preconditions": [
+        "订单已超时关闭"
+      ],
+      "steps": [
+        "1. 订单超时关闭",
+        "2. 尝试再次支付该订单"
+      ],
+      "expected_result": "提示订单已关闭，无法支付",
+      "related_requirement": "3.4 下单与支付",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC059",
+      "title": "提交订单时地址为空",
+      "priority": "P2",
+      "type": "negative",
+      "source": "L3异常模板 | TP-D010",
+      "module": "下单与支付",
+      "preconditions": [
+        "已登录",
+        "购物车非空"
+      ],
+      "steps": [
+        "1. 进入结算页",
+        "2. 不填写收货地址",
+        "3. 点击提交订单"
+      ],
+      "expected_result": "提示请填写收货地址",
+      "related_requirement": "3.4 下单与支付",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC060",
+      "title": "提交订单时地址超长",
+      "priority": "P2",
+      "type": "negative",
+      "source": "L3异常模板 | TP-D011",
+      "module": "下单与支付",
+      "preconditions": [
+        "已登录",
+        "购物车非空"
+      ],
+      "steps": [
+        "1. 进入结算页",
+        "2. 输入超过500字符的地址",
+        "3. 点击提交订单"
+      ],
+      "expected_result": "系统截断或提示地址过长",
+      "related_requirement": "3.4 下单与支付",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC061",
+      "title": "支付网关超时",
+      "priority": "P2",
+      "type": "negative",
+      "source": "L3异常模板 | TP-D012",
+      "module": "下单与支付",
+      "preconditions": [
+        "已提交订单",
+        "支付网关响应慢"
+      ],
+      "steps": [
+        "1. 发起支付",
+        "2. 支付网关超过约定时间未响应"
+      ],
+      "expected_result": "提示支付超时，请重试，订单保持待支付",
+      "related_requirement": "3.4 下单与支付",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC062",
+      "title": "支付网关返回错误",
+      "priority": "P2",
+      "type": "negative",
+      "source": "L3异常模板 | TP-D013",
+      "module": "下单与支付",
+      "preconditions": [
+        "已提交订单",
+        "支付网关异常"
+      ],
+      "steps": [
+        "1. 发起支付",
+        "2. 支付网关返回系统错误"
+      ],
+      "expected_result": "提示支付异常，请重试",
+      "related_requirement": "3.4 下单与支付",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC063",
+      "title": "支付回调和超时同时到达",
+      "priority": "P2",
+      "type": "boundary",
+      "source": "L3异常模板 | TP-D014",
+      "module": "下单与支付",
+      "preconditions": [
+        "支付在30分钟边界完成"
+      ],
+      "steps": [
+        "1. 在接近30分钟时完成支付",
+        "2. 支付回调和超时处理几乎同时到达"
+      ],
+      "expected_result": "以支付回调为准，订单状态正确更新",
+      "related_requirement": "3.4 下单与支付",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC064",
+      "title": "提交订单时网络超时",
+      "priority": "P2",
+      "type": "negative",
+      "source": "L3异常模板 | TP-D015",
+      "module": "下单与支付",
+      "preconditions": [
+        "网络不稳定"
+      ],
+      "steps": [
+        "1. 填写完信息点击提交",
+        "2. 网络超时无响应"
+      ],
+      "expected_result": "提示网络异常，请重试，不重复创建订单",
+      "related_requirement": "3.4 下单与支付",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC065",
+      "title": "支付过程中断网",
+      "priority": "P2",
+      "type": "boundary",
+      "source": "L4想象力场景 | TP-D016",
+      "module": "下单与支付",
+      "preconditions": [
+        "已提交订单",
+        "发起支付后断网"
+      ],
+      "steps": [
+        "1. 发起支付",
+        "2. 跳转支付页面后断网",
+        "3. 恢复网络后查看订单状态"
+      ],
+      "expected_result": "订单保持待支付，可重新支付",
+      "related_requirement": "3.4 下单与支付",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC066",
+      "title": "支付回调丢失",
+      "priority": "P2",
+      "type": "boundary",
+      "source": "L4想象力场景 | TP-D017",
+      "module": "下单与支付",
+      "preconditions": [
+        "用户已支付成功，但回调未送达"
+      ],
+      "steps": [
+        "1. 用户完成支付",
+        "2. 支付回调因网络问题丢失",
+        "3. 用户查看订单状态"
+      ],
+      "expected_result": "系统通过对账机制发现并补偿，订单最终变为已支付",
+      "related_requirement": "3.4 下单与支付",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC067",
+      "title": "支付成功但库存扣减失败",
+      "priority": "P2",
+      "type": "boundary",
+      "source": "L4想象力场景 | TP-D018",
+      "module": "下单与支付",
+      "preconditions": [
+        "支付成功，库存扣减异常"
+      ],
+      "steps": [
+        "1. 用户支付成功",
+        "2. 库存扣减因并发或系统异常失败"
+      ],
+      "expected_result": "系统检测不一致并补偿，确保库存和订单状态一致",
+      "related_requirement": "3.4 下单与支付",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC068",
+      "title": "重复点击提交订单按钮",
+      "priority": "P2",
+      "type": "boundary",
+      "source": "L4想象力场景 | TP-D019",
+      "module": "下单与支付",
+      "preconditions": [
+        "已登录",
+        "购物车非空"
+      ],
+      "steps": [
+        "1. 快速连续点击提交订单按钮多次"
+      ],
+      "expected_result": "仅创建一个订单，不重复创建",
+      "related_requirement": "3.4 下单与支付",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC069",
+      "title": "篡改支付金额（前端传0元）",
+      "priority": "P2",
+      "type": "boundary",
+      "source": "L4想象力场景 | TP-D020",
+      "module": "下单与支付",
+      "preconditions": [
+        "已提交订单"
+      ],
+      "steps": [
+        "1. 通过抓包工具修改支付金额为0元",
+        "2. 发送修改后的支付请求"
+      ],
+      "expected_result": "后端校验金额不一致，拒绝支付",
+      "related_requirement": "3.4 下单与支付",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC070",
+      "title": "重放支付回调请求",
+      "priority": "P2",
+      "type": "boundary",
+      "source": "L4想象力场景 | TP-D021",
+      "module": "下单与支付",
+      "preconditions": [
+        "已收到一次支付回调"
+      ],
+      "steps": [
+        "1. 订单已支付成功",
+        "2. 攻击者重放相同的支付回调请求"
+      ],
+      "expected_result": "系统识别为重复回调，不重复处理",
+      "related_requirement": "3.4 下单与支付",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC071",
+      "title": "下单后30分钟卡点支付",
+      "priority": "P3",
+      "type": "boundary",
+      "source": "L4想象力场景 | TP-D022",
+      "module": "下单与支付",
+      "preconditions": [
+        "已提交订单"
+      ],
+      "steps": [
+        "1. 提交订单",
+        "2. 在29分59秒时发起支付"
+      ],
+      "expected_result": "支付成功，订单正常处理",
+      "related_requirement": "3.4 下单与支付",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC073",
+      "title": "库存为1时两人同时下单",
+      "priority": "P2",
+      "type": "boundary",
+      "source": "L4想象力场景 | TP-D024",
+      "module": "下单与支付",
+      "preconditions": [
+        "商品库存仅剩1件",
+        "两用户同时下单"
+      ],
+      "steps": [
+        "1. 用户A和用户B同时提交该商品订单"
+      ],
+      "expected_result": "一人下单成功，另一人提示库存不足",
+      "related_requirement": "3.4 下单与支付",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC074",
+      "title": "查看订单列表",
+      "priority": "P1",
+      "type": "positive",
+      "source": "L1主路径 | TP-E001",
+      "module": "订单管理",
+      "preconditions": [
+        "已登录",
+        "有历史订单"
+      ],
+      "steps": [
+        "1. 进入订单列表页"
+      ],
+      "expected_result": "显示所有订单，包含订单号、金额、状态",
+      "related_requirement": "3.5 订单管理",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC075",
+      "title": "查看订单详情",
+      "priority": "P1",
+      "type": "positive",
+      "source": "L1主路径 | TP-E002",
+      "module": "订单管理",
+      "preconditions": [
+        "已登录",
+        "订单存在"
+      ],
+      "steps": [
+        "1. 进入订单列表",
+        "2. 点击某订单查看详情"
+      ],
+      "expected_result": "显示商品信息、金额、订单状态、物流信息",
+      "related_requirement": "3.5 订单管理",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC076",
+      "title": "取消未支付订单",
+      "priority": "P1",
+      "type": "positive",
+      "source": "L1主路径 | TP-E003",
+      "module": "订单管理",
+      "preconditions": [
+        "已登录",
+        "订单状态=待支付"
+      ],
+      "steps": [
+        "1. 进入订单列表",
+        "2. 找到待支付订单",
+        "3. 点击取消订单",
+        "4. 确认取消"
+      ],
+      "expected_result": "订单状态变为已取消",
+      "related_requirement": "3.5 订单管理",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC077",
+      "title": "确认收货",
+      "priority": "P1",
+      "type": "positive",
+      "source": "L1主路径 | TP-E004",
+      "module": "订单管理",
+      "preconditions": [
+        "已登录",
+        "订单状态=已发货"
+      ],
+      "steps": [
+        "1. 进入订单列表",
+        "2. 找到已发货订单",
+        "3. 点击确认收货"
+      ],
+      "expected_result": "订单状态变为已完成",
+      "related_requirement": "3.5 订单管理",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC078",
+      "title": "尝试取消已支付订单",
+      "priority": "P1",
+      "type": "negative",
+      "source": "L2分支路径 | TP-E005",
+      "module": "订单管理",
+      "preconditions": [
+        "已登录",
+        "订单状态=已支付"
+      ],
+      "steps": [
+        "1. 进入订单列表",
+        "2. 找到已支付订单",
+        "3. 尝试取消订单"
+      ],
+      "expected_result": "提示已支付订单不能直接取消，需要申请退款",
+      "related_requirement": "3.5 订单管理",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC079",
+      "title": "尝试取消已发货订单",
+      "priority": "P1",
+      "type": "negative",
+      "source": "L2分支路径 | TP-E006",
+      "module": "订单管理",
+      "preconditions": [
+        "已登录",
+        "订单状态=已发货"
+      ],
+      "steps": [
+        "1. 进入订单列表",
+        "2. 找到已发货订单",
+        "3. 尝试取消订单"
+      ],
+      "expected_result": "提示已发货订单不能取消",
+      "related_requirement": "3.5 订单管理",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC080",
+      "title": "尝试取消已完成订单",
+      "priority": "P1",
+      "type": "negative",
+      "source": "L2分支路径 | TP-E007",
+      "module": "订单管理",
+      "preconditions": [
+        "已登录",
+        "订单状态=已完成"
+      ],
+      "steps": [
+        "1. 进入订单列表",
+        "2. 找到已完成订单",
+        "3. 尝试取消订单"
+      ],
+      "expected_result": "提示已完成订单不能取消",
+      "related_requirement": "3.5 订单管理",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC081",
+      "title": "用户A操作用户B的订单",
+      "priority": "P2",
+      "type": "negative",
+      "source": "L3异常模板 | TP-E008",
+      "module": "订单管理",
+      "preconditions": [
+        "用户A已登录"
+      ],
+      "steps": [
+        "1. 用户A通过修改订单ID尝试访问用户B的订单"
+      ],
+      "expected_result": "提示无权限或订单不存在",
+      "related_requirement": "3.5 订单管理",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC082",
+      "title": "查看已删除订单详情",
+      "priority": "P2",
+      "type": "negative",
+      "source": "L3异常模板 | TP-E009",
+      "module": "订单管理",
+      "preconditions": [
+        "订单已被删除"
+      ],
+      "steps": [
+        "1. 通过历史链接访问已删除订单"
+      ],
+      "expected_result": "提示订单不存在",
+      "related_requirement": "3.5 订单管理",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC083",
+      "title": "无订单时查看订单详情",
+      "priority": "P2",
+      "type": "negative",
+      "source": "L3异常模板 | TP-E010",
+      "module": "订单管理",
+      "preconditions": [
+        "用户无订单"
+      ],
+      "steps": [
+        "1. 新用户进入订单列表",
+        "2. 尝试查看订单详情"
+      ],
+      "expected_result": "显示空列表，提示暂无订单",
+      "related_requirement": "3.5 订单管理",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC084",
+      "title": "对已取消订单再次取消",
+      "priority": "P2",
+      "type": "negative",
+      "source": "L3异常模板 | TP-E011",
+      "module": "订单管理",
+      "preconditions": [
+        "订单状态=已取消"
+      ],
+      "steps": [
+        "1. 找到已取消的订单",
+        "2. 尝试再次取消"
+      ],
+      "expected_result": "提示订单已取消",
+      "related_requirement": "3.5 订单管理",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC085",
+      "title": "对未发货订单确认收货",
+      "priority": "P2",
+      "type": "negative",
+      "source": "L3异常模板 | TP-E012",
+      "module": "订单管理",
+      "preconditions": [
+        "订单状态=已支付未发货"
+      ],
+      "steps": [
+        "1. 找到已支付未发货订单",
+        "2. 尝试确认收货"
+      ],
+      "expected_result": "提示订单未发货，不能确认收货",
+      "related_requirement": "3.5 订单管理",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC086",
+      "title": "订单完成后物流信息更新",
+      "priority": "P3",
+      "type": "boundary",
+      "source": "L4想象力场景 | TP-E013",
+      "module": "订单管理",
+      "preconditions": [
+        "订单已完成"
+      ],
+      "steps": [
+        "1. 订单确认收货后",
+        "2. 物流系统更新状态"
+      ],
+      "expected_result": "订单状态不再变化，物流信息保留",
+      "related_requirement": "3.5 订单管理",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC088",
+      "title": "数据库主从延迟导致订单状态不一致",
+      "priority": "P3",
+      "type": "boundary",
+      "source": "L4想象力场景 | TP-E015",
+      "module": "订单管理",
+      "preconditions": [
+        "数据库主从同步延迟"
+      ],
+      "steps": [
+        "1. 用户支付成功",
+        "2. 立即查看订单列表（读从库）"
+      ],
+      "expected_result": "最终一致性，短暂延迟后状态正确",
+      "related_requirement": "3.5 订单管理",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC089",
+      "title": "申请退款成功",
+      "priority": "P1",
+      "type": "positive",
+      "source": "L1主路径 | TP-F001",
+      "module": "退款",
+      "preconditions": [
+        "已登录",
+        "订单状态=已支付未发货"
+      ],
+      "steps": [
+        "1. 进入订单详情",
+        "2. 点击申请退款",
+        "3. 确认退款"
+      ],
+      "expected_result": "退款申请成功，退款金额=订单金额，原路返回",
+      "related_requirement": "3.6 退款",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC090",
+      "title": "未支付订单申请退款",
+      "priority": "P1",
+      "type": "negative",
+      "source": "L2分支路径 | TP-F002",
+      "module": "退款",
+      "preconditions": [
+        "已登录",
+        "订单状态=待支付"
+      ],
+      "steps": [
+        "1. 找到待支付订单",
+        "2. 尝试申请退款"
+      ],
+      "expected_result": "提示订单未支付，无需退款",
+      "related_requirement": "3.6 退款",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC091",
+      "title": "已发货订单申请退款",
+      "priority": "P1",
+      "type": "negative",
+      "source": "L2分支路径 | TP-F003",
+      "module": "退款",
+      "preconditions": [
+        "已登录",
+        "订单状态=已发货"
+      ],
+      "steps": [
+        "1. 找到已发货订单",
+        "2. 尝试申请退款"
+      ],
+      "expected_result": "提示已发货订单不能直接退款",
+      "related_requirement": "3.6 退款",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC092",
+      "title": "已完成订单申请退款",
+      "priority": "P1",
+      "type": "negative",
+      "source": "L2分支路径 | TP-F004",
+      "module": "退款",
+      "preconditions": [
+        "已登录",
+        "订单状态=已完成"
+      ],
+      "steps": [
+        "1. 找到已完成订单",
+        "2. 尝试申请退款"
+      ],
+      "expected_result": "提示已完成订单不能退款",
+      "related_requirement": "3.6 退款",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC093",
+      "title": "已退款订单再次申请退款",
+      "priority": "P1",
+      "type": "negative",
+      "source": "L2分支路径 | TP-F005",
+      "module": "退款",
+      "preconditions": [
+        "已登录",
+        "订单已退款"
+      ],
+      "steps": [
+        "1. 找到已退款订单",
+        "2. 尝试再次申请退款"
+      ],
+      "expected_result": "提示订单已退款，不可重复退款",
+      "related_requirement": "3.6 退款",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC094",
+      "title": "原支付渠道不可用时退款",
+      "priority": "P2",
+      "type": "negative",
+      "source": "L3异常模板 | TP-F006",
+      "module": "退款",
+      "preconditions": [
+        "原支付银行卡已注销"
+      ],
+      "steps": [
+        "1. 申请退款",
+        "2. 原支付渠道不可用"
+      ],
+      "expected_result": "系统提示退款失败，转人工处理或退回其他渠道",
+      "related_requirement": "3.6 退款",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC095",
+      "title": "退款过程中再次申请退款",
+      "priority": "P2",
+      "type": "boundary",
+      "source": "L3异常模板 | TP-F007",
+      "module": "退款",
+      "preconditions": [
+        "退款处理中"
+      ],
+      "steps": [
+        "1. 提交退款申请",
+        "2. 退款处理中再次点击退款"
+      ],
+      "expected_result": "提示退款处理中，不重复发起",
+      "related_requirement": "3.6 退款",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC096",
+      "title": "退款后又确认收货",
+      "priority": "P2",
+      "type": "negative",
+      "source": "L3异常模板 | TP-F008",
+      "module": "退款",
+      "preconditions": [
+        "订单已退款"
+      ],
+      "steps": [
+        "1. 订单已退款成功",
+        "2. 尝试确认收货"
+      ],
+      "expected_result": "提示订单已退款，不能确认收货",
+      "related_requirement": "3.6 退款",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC097",
+      "title": "退款金额与订单金额不一致",
+      "priority": "P2",
+      "type": "boundary",
+      "source": "L4想象力场景 | TP-F009",
+      "module": "退款",
+      "preconditions": [
+        "订单有优惠或折扣"
+      ],
+      "steps": [
+        "1. 申请退款",
+        "2. 系统计算退款金额"
+      ],
+      "expected_result": "退款金额=实付金额，与订单金额一致",
+      "related_requirement": "3.6 退款",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC098",
+      "title": "退款申请后立即再次申请",
+      "priority": "P3",
+      "type": "boundary",
+      "source": "L4想象力场景 | TP-F010",
+      "module": "退款",
+      "preconditions": [
+        "已提交退款申请"
+      ],
+      "steps": [
+        "1. 提交退款申请",
+        "2. 立即再次提交退款申请"
+      ],
+      "expected_result": "系统幂等处理，不重复退款",
+      "related_requirement": "3.6 退款",
+      "test_type": "functional"
+    },
+    {
+      "id": "TC032",
+      "title": "1000并发用户浏览商品列表",
+      "priority": "P3",
+      "type": "boundary",
+      "source": "L4想象力场景 | TP-B012",
+      "module": "商品浏览",
+      "preconditions": [
+        "压测环境"
+      ],
+      "steps": [
+        "1. 模拟1000个用户同时访问商品列表页"
+      ],
+      "expected_result": "页面加载时间<3秒，无崩溃",
+      "related_requirement": "4. 非功能需求",
+      "test_type": "performance"
+    },
+    {
+      "id": "TC033",
+      "title": "商品图片10MB时加载性能",
+      "priority": "P3",
+      "type": "boundary",
+      "source": "L4想象力场景 | TP-B013",
+      "module": "商品浏览",
+      "preconditions": [
+        "商品图片大小为10MB"
+      ],
+      "steps": [
+        "1. 进入该商品详情页",
+        "2. 等待图片加载"
+      ],
+      "expected_result": "图片正常显示，加载时间在可接受范围内",
+      "related_requirement": "4. 非功能需求",
+      "test_type": "performance"
+    },
+    {
+      "id": "TC072",
+      "title": "1000并发用户同时下单",
+      "priority": "P3",
+      "type": "boundary",
+      "source": "L4想象力场景 | TP-D023",
+      "module": "下单与支付",
+      "preconditions": [
+        "压测环境",
+        "库存充足"
+      ],
+      "steps": [
+        "1. 模拟1000个用户同时提交订单"
+      ],
+      "expected_result": "系统正常处理，库存扣减准确，无超卖",
+      "related_requirement": "4. 非功能需求",
+      "test_type": "performance"
+    },
+    {
+      "id": "TC087",
+      "title": "10000条订单时列表加载",
+      "priority": "P3",
+      "type": "boundary",
+      "source": "L4想象力场景 | TP-E014",
+      "module": "订单管理",
+      "preconditions": [
+        "用户有大量订单"
+      ],
+      "steps": [
+        "1. 用户累计10000条订单",
+        "2. 进入订单列表页"
+      ],
+      "expected_result": "列表正常加载，分页功能正常",
+      "related_requirement": "3.5 订单管理",
+      "test_type": "performance"
+    }
+  ],
+  "coverage_report": {
+    "L1": {
+      "covered": 22,
+      "total": 22,
+      "rate": "100%"
+    },
+    "L2": {
+      "covered": 23,
+      "total": 23,
+      "rate": "100%"
+    },
+    "L3": {
+      "covered": 34,
+      "total": 34,
+      "rate": "100%"
+    },
+    "L4": {
+      "cases": 19
+    },
+    "total_cases": 98
+  },
+  "summary": {
+    "total": 98,
+    "functional": 94,
+    "performance": 4
+  }
+}

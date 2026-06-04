@@ -1,0 +1,665 @@
+{
+  "metadata": {
+    "project_name": "在线商城",
+    "document_source": "/test-case-engine/examples/online-shop-prd.md",
+    "created_at": "2026-06-04",
+    "version": "1.0"
+  },
+  "business_tree": {
+    "entry_points": [
+      {
+        "id": "EP001",
+        "name": "用户注册",
+        "type": "用户操作",
+        "source": "3.1 用户注册与登录",
+        "actors": ["普通用户"],
+        "preconditions": ["未注册用户"],
+        "description": "用户通过手机号或邮箱注册账号"
+      },
+      {
+        "id": "EP002",
+        "name": "手机验证码登录",
+        "type": "用户操作",
+        "source": "3.1 用户注册与登录",
+        "actors": ["普通用户"],
+        "preconditions": ["已注册用户"],
+        "description": "用户通过手机号+验证码登录"
+      },
+      {
+        "id": "EP003",
+        "name": "邮箱密码登录",
+        "type": "用户操作",
+        "source": "3.1 用户注册与登录",
+        "actors": ["普通用户"],
+        "preconditions": ["已注册用户"],
+        "description": "用户通过邮箱+密码登录"
+      },
+      {
+        "id": "EP004",
+        "name": "查看商品列表",
+        "type": "用户操作",
+        "source": "3.2 商品浏览",
+        "actors": ["普通用户"],
+        "preconditions": ["已登录或未登录均可"],
+        "description": "用户浏览商品列表，支持分页、分类筛选、价格排序"
+      },
+      {
+        "id": "EP005",
+        "name": "查看商品详情",
+        "type": "用户操作",
+        "source": "3.2 商品浏览",
+        "actors": ["普通用户"],
+        "preconditions": ["商品存在"],
+        "description": "用户查看商品详细信息（名称、价格、描述、库存、图片）"
+      },
+      {
+        "id": "EP006",
+        "name": "添加商品到购物车",
+        "type": "用户操作",
+        "source": "3.3 购物车",
+        "actors": ["普通用户"],
+        "preconditions": ["已登录", "商品存在", "库存>0"],
+        "description": "用户将商品加入购物车"
+      },
+      {
+        "id": "EP007",
+        "name": "修改购物车商品数量",
+        "type": "用户操作",
+        "source": "3.3 购物车",
+        "actors": ["普通用户"],
+        "preconditions": ["已登录", "购物车中有该商品"],
+        "description": "用户修改购物车中商品的数量"
+      },
+      {
+        "id": "EP008",
+        "name": "从购物车删除商品",
+        "type": "用户操作",
+        "source": "3.3 购物车",
+        "actors": ["普通用户"],
+        "preconditions": ["已登录", "购物车中有该商品"],
+        "description": "用户从购物车中删除商品"
+      },
+      {
+        "id": "EP009",
+        "name": "提交订单",
+        "type": "用户操作",
+        "source": "3.4 下单与支付",
+        "actors": ["普通用户"],
+        "preconditions": ["已登录", "购物车非空"],
+        "description": "用户选择购物车商品提交订单，填写收货地址"
+      },
+      {
+        "id": "EP010",
+        "name": "完成支付",
+        "type": "用户操作",
+        "source": "3.4 下单与支付",
+        "actors": ["普通用户"],
+        "preconditions": ["已提交订单", "订单状态=待支付"],
+        "description": "用户选择支付方式完成订单支付"
+      },
+      {
+        "id": "EP011",
+        "name": "查看订单列表",
+        "type": "用户操作",
+        "source": "3.5 订单管理",
+        "actors": ["普通用户"],
+        "preconditions": ["已登录"],
+        "description": "用户查看所有订单列表"
+      },
+      {
+        "id": "EP012",
+        "name": "查看订单详情",
+        "type": "用户操作",
+        "source": "3.5 订单管理",
+        "actors": ["普通用户"],
+        "preconditions": ["已登录", "订单存在"],
+        "description": "用户查看订单详情（商品、金额、状态、物流）"
+      },
+      {
+        "id": "EP013",
+        "name": "取消未支付订单",
+        "type": "用户操作",
+        "source": "3.5 订单管理",
+        "actors": ["普通用户"],
+        "preconditions": ["已登录", "订单状态=待支付"],
+        "description": "用户取消未支付的订单"
+      },
+      {
+        "id": "EP014",
+        "name": "确认收货",
+        "type": "用户操作",
+        "source": "3.5 订单管理",
+        "actors": ["普通用户"],
+        "preconditions": ["已登录", "订单状态=已发货"],
+        "description": "用户确认收到商品"
+      },
+      {
+        "id": "EP015",
+        "name": "申请退款",
+        "type": "用户操作",
+        "source": "3.6 退款",
+        "actors": ["普通用户"],
+        "preconditions": ["已登录", "订单状态=已支付未发货"],
+        "description": "用户申请订单退款"
+      },
+      {
+        "id": "EP016",
+        "name": "支付超时自动关闭",
+        "type": "系统事件",
+        "source": "3.4 下单与支付",
+        "actors": ["系统"],
+        "preconditions": ["订单状态=待支付", "超过30分钟"],
+        "description": "支付超时后系统自动关闭订单"
+      },
+      {
+        "id": "EP017",
+        "name": "重复支付拦截",
+        "type": "系统事件",
+        "source": "3.4 下单与支付",
+        "actors": ["系统"],
+        "preconditions": ["订单已支付"],
+        "description": "系统自动拦截重复支付请求"
+      }
+    ],
+    "business_flows": [
+      {
+        "entry_point": "EP001",
+        "flow_name": "用户注册流程",
+        "steps": [
+          {"step_id": "S1.1", "action": "用户输入手机号或邮箱", "actor": "用户"},
+          {"step_id": "S1.2", "action": "系统验证输入格式", "actor": "系统"},
+          {"step_id": "S1.3", "action": "系统检查手机号/邮箱是否已注册", "actor": "系统"},
+          {"step_id": "S1.4", "action": "系统发送验证码（手机号注册时）", "actor": "系统"},
+          {"step_id": "S1.5", "action": "用户输入验证码", "actor": "用户"},
+          {"step_id": "S1.6", "action": "系统验证验证码", "actor": "系统"},
+          {"step_id": "S1.7", "action": "用户设置密码", "actor": "用户"},
+          {"step_id": "S1.8", "action": "系统验证密码强度", "actor": "系统"},
+          {"step_id": "S1.9", "action": "系统创建账号", "actor": "系统"}
+        ],
+        "leaf_nodes": ["S1.9"]
+      },
+      {
+        "entry_point": "EP002",
+        "flow_name": "手机验证码登录流程",
+        "steps": [
+          {"step_id": "S2.1", "action": "用户输入手机号", "actor": "用户"},
+          {"step_id": "S2.2", "action": "系统发送验证码", "actor": "系统"},
+          {"step_id": "S2.3", "action": "用户输入验证码", "actor": "用户"},
+          {"step_id": "S2.4", "action": "系统验证验证码", "actor": "系统"},
+          {"step_id": "S2.5", "action": "系统创建会话（7天免登录）", "actor": "系统"}
+        ],
+        "leaf_nodes": ["S2.5"]
+      },
+      {
+        "entry_point": "EP003",
+        "flow_name": "邮箱密码登录流程",
+        "steps": [
+          {"step_id": "S3.1", "action": "用户输入邮箱和密码", "actor": "用户"},
+          {"step_id": "S3.2", "action": "系统验证邮箱格式", "actor": "系统"},
+          {"step_id": "S3.3", "action": "系统检查账户是否被锁定", "actor": "系统"},
+          {"step_id": "S3.4", "action": "系统验证密码", "actor": "系统"},
+          {"step_id": "S3.5", "action": "系统记录密码错误次数", "actor": "系统"},
+          {"step_id": "S3.6", "action": "系统锁定账户（连续5次错误）", "actor": "系统"},
+          {"step_id": "S3.7", "action": "系统创建会话（7天免登录）", "actor": "系统"}
+        ],
+        "leaf_nodes": ["S3.6", "S3.7"]
+      },
+      {
+        "entry_point": "EP004",
+        "flow_name": "商品列表浏览流程",
+        "steps": [
+          {"step_id": "S4.1", "action": "系统加载商品列表（分页，每页20条）", "actor": "系统"},
+          {"step_id": "S4.2", "action": "用户选择分类筛选", "actor": "用户"},
+          {"step_id": "S4.3", "action": "用户选择价格排序", "actor": "用户"},
+          {"step_id": "S4.4", "action": "系统展示商品列表", "actor": "系统"}
+        ],
+        "leaf_nodes": ["S4.4"]
+      },
+      {
+        "entry_point": "EP005",
+        "flow_name": "商品详情查看流程",
+        "steps": [
+          {"step_id": "S5.1", "action": "用户点击商品", "actor": "用户"},
+          {"step_id": "S5.2", "action": "系统加载商品详情（名称、价格、描述、库存、图片）", "actor": "系统"},
+          {"step_id": "S5.3", "action": "系统判断库存状态（库存>0显示数量，库存=0显示缺货）", "actor": "系统"}
+        ],
+        "leaf_nodes": ["S5.3"]
+      },
+      {
+        "entry_point": "EP006",
+        "flow_name": "添加商品到购物车流程",
+        "steps": [
+          {"step_id": "S6.1", "action": "用户选择商品和数量", "actor": "用户"},
+          {"step_id": "S6.2", "action": "系统校验库存", "actor": "系统"},
+          {"step_id": "S6.3", "action": "系统将商品加入购物车", "actor": "系统"}
+        ],
+        "leaf_nodes": ["S6.3"]
+      },
+      {
+        "entry_point": "EP007",
+        "flow_name": "修改购物车商品数量流程",
+        "steps": [
+          {"step_id": "S7.1", "action": "用户修改商品数量", "actor": "用户"},
+          {"step_id": "S7.2", "action": "系统校验新数量是否超过库存", "actor": "系统"},
+          {"step_id": "S7.3", "action": "系统更新购物车", "actor": "系统"}
+        ],
+        "leaf_nodes": ["S7.3"]
+      },
+      {
+        "entry_point": "EP008",
+        "flow_name": "从购物车删除商品流程",
+        "steps": [
+          {"step_id": "S8.1", "action": "用户选择删除商品", "actor": "用户"},
+          {"step_id": "S8.2", "action": "系统从购物车移除商品", "actor": "系统"}
+        ],
+        "leaf_nodes": ["S8.2"]
+      },
+      {
+        "entry_point": "EP009",
+        "flow_name": "提交订单流程",
+        "steps": [
+          {"step_id": "S9.1", "action": "用户选择购物车中的商品", "actor": "用户"},
+          {"step_id": "S9.2", "action": "用户填写收货地址", "actor": "用户"},
+          {"step_id": "S9.3", "action": "用户选择支付方式（支付宝/微信）", "actor": "用户"},
+          {"step_id": "S9.4", "action": "系统校验库存", "actor": "系统"},
+          {"step_id": "S9.5", "action": "系统计算订单金额（价格×数量）", "actor": "系统"},
+          {"step_id": "S9.6", "action": "系统创建订单（状态=待支付）", "actor": "系统"}
+        ],
+        "leaf_nodes": ["S9.6"]
+      },
+      {
+        "entry_point": "EP010",
+        "flow_name": "完成支付流程",
+        "steps": [
+          {"step_id": "S10.1", "action": "用户确认订单信息并发起支付", "actor": "用户"},
+          {"step_id": "S10.2", "action": "系统调用支付接口", "actor": "系统"},
+          {"step_id": "S10.3", "action": "支付结果回调", "actor": "外部系统"},
+          {"step_id": "S10.4", "action": "系统扣减库存", "actor": "系统"},
+          {"step_id": "S10.5", "action": "系统更新订单状态为已支付", "actor": "系统"}
+        ],
+        "leaf_nodes": ["S10.5"]
+      },
+      {
+        "entry_point": "EP011",
+        "flow_name": "查看订单列表流程",
+        "steps": [
+          {"step_id": "S11.1", "action": "用户进入订单列表页", "actor": "用户"},
+          {"step_id": "S11.2", "action": "系统加载用户所有订单", "actor": "系统"},
+          {"step_id": "S11.3", "action": "系统展示订单列表", "actor": "系统"}
+        ],
+        "leaf_nodes": ["S11.3"]
+      },
+      {
+        "entry_point": "EP012",
+        "flow_name": "查看订单详情流程",
+        "steps": [
+          {"step_id": "S12.1", "action": "用户点击订单", "actor": "用户"},
+          {"step_id": "S12.2", "action": "系统加载订单详情（商品、金额、状态、物流）", "actor": "系统"}
+        ],
+        "leaf_nodes": ["S12.2"]
+      },
+      {
+        "entry_point": "EP013",
+        "flow_name": "取消未支付订单流程",
+        "steps": [
+          {"step_id": "S13.1", "action": "用户发起取消订单", "actor": "用户"},
+          {"step_id": "S13.2", "action": "系统检查订单状态", "actor": "系统"},
+          {"step_id": "S13.3", "action": "系统关闭订单", "actor": "系统"}
+        ],
+        "leaf_nodes": ["S13.3"]
+      },
+      {
+        "entry_point": "EP014",
+        "flow_name": "确认收货流程",
+        "steps": [
+          {"step_id": "S14.1", "action": "用户确认收货", "actor": "用户"},
+          {"step_id": "S14.2", "action": "系统更新订单状态为已完成", "actor": "系统"}
+        ],
+        "leaf_nodes": ["S14.2"]
+      },
+      {
+        "entry_point": "EP015",
+        "flow_name": "申请退款流程",
+        "steps": [
+          {"step_id": "S15.1", "action": "用户发起退款申请", "actor": "用户"},
+          {"step_id": "S15.2", "action": "系统检查订单是否满足退款条件（已支付未发货）", "actor": "系统"},
+          {"step_id": "S15.3", "action": "系统计算退款金额（=订单金额）", "actor": "系统"},
+          {"step_id": "S15.4", "action": "系统发起原路退款", "actor": "系统"},
+          {"step_id": "S15.5", "action": "系统更新订单状态", "actor": "系统"}
+        ],
+        "leaf_nodes": ["S15.5"]
+      },
+      {
+        "entry_point": "EP016",
+        "flow_name": "支付超时自动关闭流程",
+        "steps": [
+          {"step_id": "S16.1", "action": "系统检测到订单超过30分钟未支付", "actor": "系统"},
+          {"step_id": "S16.2", "action": "系统自动关闭订单", "actor": "系统"}
+        ],
+        "leaf_nodes": ["S16.2"]
+      },
+      {
+        "entry_point": "EP017",
+        "flow_name": "重复支付拦截流程",
+        "steps": [
+          {"step_id": "S17.1", "action": "系统收到支付回调", "actor": "外部系统"},
+          {"step_id": "S17.2", "action": "系统检查订单是否已支付", "actor": "系统"},
+          {"step_id": "S17.3", "action": "系统拦截重复支付", "actor": "系统"}
+        ],
+        "leaf_nodes": ["S17.3"]
+      }
+    ],
+    "branch_points": [
+      {
+        "id": "BP001",
+        "location": "EP001-S1.2",
+        "description": "注册时手机号/邮箱格式验证",
+        "branches": [
+          {"condition": "格式正确", "next_step": "S1.3"},
+          {"condition": "格式错误", "result": "提示格式错误，要求重新输入", "is_empty": false}
+        ]
+      },
+      {
+        "id": "BP002",
+        "location": "EP001-S1.3",
+        "description": "检查手机号/邮箱是否已注册",
+        "branches": [
+          {"condition": "未注册", "next_step": "S1.4/S1.7"},
+          {"condition": "已注册", "result": "提示'该手机号已注册'", "is_empty": false}
+        ]
+      },
+      {
+        "id": "BP003",
+        "location": "EP001-S1.6",
+        "description": "验证码验证",
+        "branches": [
+          {"condition": "验证码正确", "next_step": "S1.7"},
+          {"condition": "验证码错误", "result": "提示'验证码错误，请重新输入'", "is_empty": false}
+        ]
+      },
+      {
+        "id": "BP004",
+        "location": "EP001-S1.8",
+        "description": "密码强度验证",
+        "branches": [
+          {"condition": "密码符合要求（≥8位，含字母和数字）", "next_step": "S1.9"},
+          {"condition": "密码不符合要求", "result": "提示密码不合规", "is_empty": false}
+        ]
+      },
+      {
+        "id": "BP005",
+        "location": "EP003-S3.3",
+        "description": "账户锁定状态检查",
+        "branches": [
+          {"condition": "未锁定", "next_step": "S3.4"},
+          {"condition": "已锁定（连续5次密码错误）", "result": "提示账户已锁定，30分钟后重试", "is_empty": false}
+        ]
+      },
+      {
+        "id": "BP006",
+        "location": "EP003-S3.4",
+        "description": "密码验证",
+        "branches": [
+          {"condition": "密码正确", "next_step": "S3.7"},
+          {"condition": "密码错误", "next_step": "S3.5"}
+        ]
+      },
+      {
+        "id": "BP007",
+        "location": "EP003-S3.5",
+        "description": "密码错误次数判断",
+        "branches": [
+          {"condition": "错误次数<5", "result": "提示'密码错误，还剩N次机会'", "is_empty": false},
+          {"condition": "错误次数=5", "next_step": "S3.6"}
+        ]
+      },
+      {
+        "id": "BP008",
+        "location": "EP006-S6.2",
+        "description": "添加购物车时库存校验",
+        "branches": [
+          {"condition": "库存充足", "next_step": "S6.3"},
+          {"condition": "库存不足", "result": "提示库存不足", "is_empty": false}
+        ]
+      },
+      {
+        "id": "BP009",
+        "location": "EP007-S7.2",
+        "description": "修改数量时库存校验",
+        "branches": [
+          {"condition": "新数量≤库存", "next_step": "S7.3"},
+          {"condition": "新数量>库存", "result": "提示库存不足，不能超过库存", "is_empty": false}
+        ]
+      },
+      {
+        "id": "BP010",
+        "location": "EP009-S9.4",
+        "description": "提交订单时库存校验",
+        "branches": [
+          {"condition": "库存充足", "next_step": "S9.5"},
+          {"condition": "库存不足", "result": "提示'库存不足，无法下单'", "is_empty": false}
+        ]
+      },
+      {
+        "id": "BP011",
+        "location": "EP010-S10.3",
+        "description": "支付结果处理",
+        "branches": [
+          {"condition": "支付成功", "next_step": "S10.4"},
+          {"condition": "支付失败", "result": "提示'支付失败，请重试'", "is_empty": false},
+          {"condition": "支付超时（30分钟）", "next_step": "EP016"}
+        ]
+      },
+      {
+        "id": "BP012",
+        "location": "EP013-S13.2",
+        "description": "取消订单时状态检查",
+        "branches": [
+          {"condition": "订单状态=待支付", "next_step": "S13.3"},
+          {"condition": "订单状态=已支付", "result": "提示需要申请退款", "is_empty": false},
+          {"condition": "订单状态=已发货", "result": "提示已发货订单不能取消", "is_empty": false},
+          {"condition": "订单状态=已完成", "result": "提示已完成订单不能取消", "is_empty": false}
+        ]
+      },
+      {
+        "id": "BP013",
+        "location": "EP015-S15.2",
+        "description": "退款资格检查",
+        "branches": [
+          {"condition": "已支付未发货", "next_step": "S15.3"},
+          {"condition": "未支付", "result": "提示订单未支付，无需退款", "is_empty": false},
+          {"condition": "已发货", "result": "提示已发货订单不能直接退款", "is_empty": false},
+          {"condition": "已完成", "result": "提示已完成订单不能退款", "is_empty": false},
+          {"condition": "已退款", "result": "提示订单已退款", "is_empty": false}
+        ]
+      },
+      {
+        "id": "BP014",
+        "location": "EP016-S16.1",
+        "description": "支付超时检测",
+        "branches": [
+          {"condition": "超过30分钟未支付", "next_step": "S16.2"},
+          {"condition": "未超时", "result": "继续等待支付", "is_empty": false}
+        ]
+      },
+      {
+        "id": "BP015",
+        "location": "EP017-S17.2",
+        "description": "重复支付检查",
+        "branches": [
+          {"condition": "订单未支付", "result": "正常处理支付", "is_empty": false},
+          {"condition": "订单已支付", "next_step": "S17.3"}
+        ]
+      },
+      {
+        "id": "BP016",
+        "location": "EP005-S5.3",
+        "description": "商品库存状态展示",
+        "branches": [
+          {"condition": "库存>0", "result": "显示库存数量", "is_empty": false},
+          {"condition": "库存=0", "result": "显示'缺货'", "is_empty": false}
+        ]
+      },
+      {
+        "id": "BP017",
+        "location": "EP010-S10.2",
+        "description": "支付方式选择",
+        "branches": [
+          {"condition": "支付宝", "result": "调用支付宝接口", "is_empty": false},
+          {"condition": "微信支付", "result": "调用微信支付接口", "is_empty": false}
+        ]
+      },
+      {
+        "id": "BP018",
+        "location": "EP009-S9.3",
+        "description": "订单支付方式选择",
+        "branches": [
+          {"condition": "支付宝", "next_step": "EP010"},
+          {"condition": "微信支付", "next_step": "EP010"}
+        ]
+      }
+    ],
+    "scenarios": {
+      "L1_main_paths": [
+        {"id": "L1-001", "entry_point": "EP001", "description": "用户通过手机号注册账号成功"},
+        {"id": "L1-002", "entry_point": "EP001", "description": "用户通过邮箱注册账号成功"},
+        {"id": "L1-003", "entry_point": "EP002", "description": "用户通过手机验证码登录成功"},
+        {"id": "L1-004", "entry_point": "EP003", "description": "用户通过邮箱密码登录成功"},
+        {"id": "L1-005", "entry_point": "EP004", "description": "用户浏览商品列表"},
+        {"id": "L1-006", "entry_point": "EP004", "description": "用户按分类筛选商品"},
+        {"id": "L1-007", "entry_point": "EP004", "description": "用户按价格排序商品"},
+        {"id": "L1-008", "entry_point": "EP005", "description": "用户查看有库存商品详情"},
+        {"id": "L1-009", "entry_point": "EP005", "description": "用户查看缺货商品详情"},
+        {"id": "L1-010", "entry_point": "EP006", "description": "用户添加商品到购物车"},
+        {"id": "L1-011", "entry_point": "EP007", "description": "用户修改购物车商品数量"},
+        {"id": "L1-012", "entry_point": "EP008", "description": "用户从购物车删除商品"},
+        {"id": "L1-013", "entry_point": "EP009", "description": "用户提交订单成功"},
+        {"id": "L1-014", "entry_point": "EP010", "description": "用户通过支付宝支付成功"},
+        {"id": "L1-015", "entry_point": "EP010", "description": "用户通过微信支付成功"},
+        {"id": "L1-016", "entry_point": "EP011", "description": "用户查看订单列表"},
+        {"id": "L1-017", "entry_point": "EP012", "description": "用户查看订单详情"},
+        {"id": "L1-018", "entry_point": "EP013", "description": "用户取消未支付订单"},
+        {"id": "L1-019", "entry_point": "EP014", "description": "用户确认收货"},
+        {"id": "L1-020", "entry_point": "EP015", "description": "用户申请退款成功"},
+        {"id": "L1-021", "entry_point": "EP016", "description": "支付超时系统自动关闭订单"},
+        {"id": "L1-022", "entry_point": "EP017", "description": "系统拦截重复支付"}
+      ],
+      "L2_branch_paths": [
+        {"id": "L2-001", "branch_point": "BP001", "branch": "格式错误", "description": "注册时输入格式错误的手机号/邮箱"},
+        {"id": "L2-002", "branch_point": "BP002", "branch": "已注册", "description": "注册时手机号已注册"},
+        {"id": "L2-003", "branch_point": "BP003", "branch": "验证码错误", "description": "注册时验证码错误"},
+        {"id": "L2-004", "branch_point": "BP004", "branch": "密码不符合要求", "description": "注册时密码强度不足"},
+        {"id": "L2-005", "branch_point": "BP005", "branch": "已锁定", "description": "登录时账户已被锁定"},
+        {"id": "L2-006", "branch_point": "BP006", "branch": "密码错误", "description": "登录时密码错误"},
+        {"id": "L2-007", "branch_point": "BP007", "branch": "错误次数<5", "description": "密码错误次数未达上限"},
+        {"id": "L2-008", "branch_point": "BP007", "branch": "错误次数=5", "description": "密码错误5次触发账户锁定"},
+        {"id": "L2-009", "branch_point": "BP008", "branch": "库存不足", "description": "添加购物车时库存不足"},
+        {"id": "L2-010", "branch_point": "BP009", "branch": "新数量>库存", "description": "修改数量超过库存"},
+        {"id": "L2-011", "branch_point": "BP010", "branch": "库存不足", "description": "提交订单时库存不足"},
+        {"id": "L2-012", "branch_point": "BP011", "branch": "支付失败", "description": "支付失败"},
+        {"id": "L2-013", "branch_point": "BP011", "branch": "支付超时", "description": "支付超时30分钟"},
+        {"id": "L2-014", "branch_point": "BP012", "branch": "已支付", "description": "尝试取消已支付订单"},
+        {"id": "L2-015", "branch_point": "BP012", "branch": "已发货", "description": "尝试取消已发货订单"},
+        {"id": "L2-016", "branch_point": "BP012", "branch": "已完成", "description": "尝试取消已完成订单"},
+        {"id": "L2-017", "branch_point": "BP013", "branch": "未支付", "description": "未支付订单申请退款"},
+        {"id": "L2-018", "branch_point": "BP013", "branch": "已发货", "description": "已发货订单申请退款"},
+        {"id": "L2-019", "branch_point": "BP013", "branch": "已完成", "description": "已完成订单申请退款"},
+        {"id": "L2-020", "branch_point": "BP013", "branch": "已退款", "description": "已退款订单再次申请退款"},
+        {"id": "L2-021", "branch_point": "BP016", "branch": "库存=0", "description": "查看缺货商品详情"},
+        {"id": "L2-022", "branch_point": "BP017", "branch": "支付宝", "description": "选择支付宝支付"},
+        {"id": "L2-023", "branch_point": "BP017", "branch": "微信支付", "description": "选择微信支付"}
+      ],
+      "L3_exception_templates": [
+        {"id": "L3-001", "template": "前置条件缺失", "description": "未登录用户尝试加入购物车"},
+        {"id": "L3-002", "template": "前置条件缺失", "description": "未登录用户尝试提交订单"},
+        {"id": "L3-003", "template": "前置条件缺失", "description": "未登录用户尝试查看订单"},
+        {"id": "L3-004", "template": "输入异常", "description": "注册时输入空手机号"},
+        {"id": "L3-005", "template": "输入异常", "description": "注册时输入超长密码（>128位）"},
+        {"id": "L3-006", "template": "输入异常", "description": "登录时输入空密码"},
+        {"id": "L3-007", "template": "输入异常", "description": "修改购物车数量输入负数"},
+        {"id": "L3-008", "template": "输入异常", "description": "修改购物车数量输入0"},
+        {"id": "L3-009", "template": "输入异常", "description": "提交订单时地址为空"},
+        {"id": "L3-010", "template": "输入异常", "description": "提交订单时地址超长（>500字符）"},
+        {"id": "L3-011", "template": "资源不足", "description": "添加购物车时商品库存为0"},
+        {"id": "L3-012", "template": "资源不足", "description": "提交订单时全部商品库存为0"},
+        {"id": "L3-013", "template": "资源不足", "description": "修改数量时库存已被其他用户买完"},
+        {"id": "L3-014", "template": "外部依赖失败", "description": "注册时短信发送失败"},
+        {"id": "L3-015", "template": "外部依赖失败", "description": "登录时短信发送失败"},
+        {"id": "L3-016", "template": "外部依赖失败", "description": "支付时支付网关超时"},
+        {"id": "L3-017", "template": "外部依赖失败", "description": "支付时支付网关返回错误"},
+        {"id": "L3-018", "template": "外部依赖失败", "description": "退款时原支付渠道不可用"},
+        {"id": "L3-019", "template": "并发冲突", "description": "两人同时添加同一商品到购物车"},
+        {"id": "L3-020", "template": "并发冲突", "description": "两人同时下单同一商品（库存仅剩1件）"},
+        {"id": "L3-021", "template": "并发冲突", "description": "同时修改同一购物车商品数量"},
+        {"id": "L3-022", "template": "并发冲突", "description": "支付回调和超时处理同时到达"},
+        {"id": "L3-023", "template": "超时", "description": "支付页面长时间未操作"},
+        {"id": "L3-024", "template": "超时", "description": "提交订单时网络超时"},
+        {"id": "L3-025", "template": "权限拒绝", "description": "用户A尝试操作用户B的订单"},
+        {"id": "L3-026", "template": "权限拒绝", "description": "用户尝试操作其他用户的购物车"},
+        {"id": "L3-027", "template": "数据不存在", "description": "查看已删除商品的详情"},
+        {"id": "L3-028", "template": "数据不存在", "description": "查看不存在的订单详情"},
+        {"id": "L3-029", "template": "状态非法", "description": "对已完成订单申请退款"},
+        {"id": "L3-030", "template": "状态非法", "description": "对已取消订单再次取消"},
+        {"id": "L3-031", "template": "状态非法", "description": "对已支付订单再次支付"},
+        {"id": "L3-032", "template": "状态非法", "description": "对未发货订单确认收货"},
+        {"id": "L3-033", "template": "空分支", "description": "购物车为空时点击结算"},
+        {"id": "L3-034", "template": "空分支", "description": "无订单时查看订单详情"}
+      ],
+      "L4_imagination_scenarios": [
+        {"id": "L4-001", "technique": "逆向思考", "description": "支付成功但库存扣减失败（钱扣了但库存未减）"},
+        {"id": "L4-002", "technique": "逆向思考", "description": "订单创建成功但库存扣减失败（用户付款但没库存）"},
+        {"id": "L4-003", "technique": "逆向思考", "description": "支付回调丢失（用户已支付但系统显示未支付）"},
+        {"id": "L4-004", "technique": "逆向思考", "description": "购物车添加成功但库存实际已为0"},
+        {"id": "L4-005", "technique": "逆向思考", "description": "退款申请成功但原支付渠道退款失败"},
+        {"id": "L4-006", "technique": "反模式学习", "description": "高并发下库存超卖（100人同时下单仅剩1件库存）"},
+        {"id": "L4-007", "technique": "反模式学习", "description": "用户快速重复点击提交订单按钮（重复创建订单）"},
+        {"id": "L4-008", "technique": "反模式学习", "description": "支付成功但订单状态未更新（掉单）"},
+        {"id": "L4-009", "technique": "反模式学习", "description": "购物车数据在多设备间不一致"},
+        {"id": "L4-010", "technique": "反模式学习", "description": "退款金额与订单金额不一致"},
+        {"id": "L4-011", "technique": "渐进式假设", "description": "1000个用户并发下单同一商品"},
+        {"id": "L4-012", "technique": "渐进式假设", "description": "网络延迟3秒时支付回调处理"},
+        {"id": "L4-013", "technique": "渐进式假设", "description": "用户在支付过程中断网"},
+        {"id": "L4-014", "technique": "渐进式假设", "description": "库存为1时两个用户同时下单"},
+        {"id": "L4-015", "technique": "渐进式假设", "description": "用户输入恶意构造的超长地址（10KB）"},
+        {"id": "L4-016", "technique": "多角色视角", "description": "普通用户误操作：重复点击提交订单"},
+        {"id": "L4-017", "technique": "多角色视角", "description": "普通用户误操作：下单后立即取消又重新下单"},
+        {"id": "L4-018", "technique": "多角色视角", "description": "攻击者：使用脚本批量注册账号"},
+        {"id": "L4-019", "technique": "多角色视角", "description": "攻击者：篡改支付金额（前端传0元）"},
+        {"id": "L4-020", "technique": "多角色视角", "description": "攻击者：重放支付回调请求"},
+        {"id": "L4-021", "technique": "多角色视角", "description": "运维：支付回调丢失后的对账处理"},
+        {"id": "L4-022", "technique": "多角色视角", "description": "运维：数据库主从延迟导致订单状态不一致"},
+        {"id": "L4-023", "technique": "数据全生命周期", "description": "用户注销后数据保留策略"},
+        {"id": "L4-024", "technique": "数据全生命周期", "description": "商品下架后购物车中仍存在该商品"},
+        {"id": "L4-025", "technique": "数据全生命周期", "description": "订单完成后物流信息更新"},
+        {"id": "L4-026", "technique": "逐层追问", "description": "支付超时关闭后用户又发起支付（第1层）→ 系统应拒绝（第2层）→ 用户困惑（第3层）"},
+        {"id": "L4-027", "technique": "逐层追问", "description": "库存扣减失败后（第1层）→ 订单状态不一致（第2层）→ 影响其他用户购买（第3层）"},
+        {"id": "L4-028", "technique": "类比推理", "description": "类似淘宝：秒杀场景下的库存超卖问题"},
+        {"id": "L4-029", "technique": "类比推理", "description": "类似京东：订单金额在下单后被修改"},
+        {"id": "L4-030", "technique": "组合交叉", "description": "用户已登录+购物车为空+点击结算"},
+        {"id": "L4-031", "technique": "组合交叉", "description": "订单已支付+申请退款+同时确认收货"},
+        {"id": "L4-032", "technique": "组合交叉", "description": "账户已锁定+验证码登录（绕过锁定）"},
+        {"id": "L4-033", "technique": "时间和顺序", "description": "加入购物车后1小时再下单（库存可能已变）"},
+        {"id": "L4-034", "technique": "时间和顺序", "description": "下单后30分钟卡点支付（超时边界）"},
+        {"id": "L4-035", "technique": "时间和顺序", "description": "退款申请后立即再次申请退款"},
+        {"id": "L4-036", "technique": "时间和顺序", "description": "同一操作幂等性：重复提交订单只创建一个"},
+        {"id": "L4-037", "technique": "规模和压力", "description": "1000并发用户同时浏览商品列表"},
+        {"id": "L4-038", "technique": "规模和压力", "description": "单个用户购物车100件商品结算"},
+        {"id": "L4-039", "technique": "规模和压力", "description": "用户累计10000条订单时列表加载"},
+        {"id": "L4-040", "technique": "规模和压力", "description": "商品图片10MB时详情页加载性能"}
+      ]
+    }
+  },
+  "coverage_summary": {
+    "entry_points": 17,
+    "branch_points": 18,
+    "L1_main_paths": 22,
+    "L2_branch_paths": 23,
+    "L3_exception_templates": 34,
+    "L4_imagination_scenarios": 40,
+    "L1_coverage": "100%",
+    "L2_coverage": "100%",
+    "L3_coverage": "100%",
+    "L4_breadth_inquiry_rounds": 4,
+    "L4_converged": true
+  }
+}

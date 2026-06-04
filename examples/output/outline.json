@@ -1,0 +1,146 @@
+{
+  "outline": {
+    "modules": [
+      {
+        "name": "用户注册与登录",
+        "entry_points": ["EP001", "EP002", "EP003"],
+        "test_points": [
+          {"id": "TP-A001", "name": "手机号注册成功", "source": "L1主路径", "priority": "P1", "related_branches": [], "test_focus": "验证手机号注册完整流程"},
+          {"id": "TP-A002", "name": "邮箱注册成功", "source": "L1主路径", "priority": "P1", "related_branches": [], "test_focus": "验证邮箱注册完整流程"},
+          {"id": "TP-A003", "name": "手机验证码登录成功", "source": "L1主路径", "priority": "P1", "related_branches": [], "test_focus": "验证手机验证码登录流程"},
+          {"id": "TP-A004", "name": "邮箱密码登录成功", "source": "L1主路径", "priority": "P1", "related_branches": [], "test_focus": "验证邮箱密码登录流程"},
+          {"id": "TP-A005", "name": "注册时格式错误", "source": "L2分支路径", "priority": "P1", "related_branches": ["BP001"], "test_focus": "验证格式校验提示"},
+          {"id": "TP-A006", "name": "手机号已注册", "source": "L2分支路径", "priority": "P1", "related_branches": ["BP002"], "test_focus": "验证重复注册提示"},
+          {"id": "TP-A007", "name": "注册验证码错误", "source": "L2分支路径", "priority": "P1", "related_branches": ["BP003"], "test_focus": "验证验证码错误提示"},
+          {"id": "TP-A008", "name": "密码强度不足", "source": "L2分支路径", "priority": "P1", "related_branches": ["BP004"], "test_focus": "验证密码规则校验"},
+          {"id": "TP-A009", "name": "账户已被锁定", "source": "L2分支路径", "priority": "P1", "related_branches": ["BP005"], "test_focus": "验证锁定状态提示"},
+          {"id": "TP-A010", "name": "登录密码错误（<5次）", "source": "L2分支路径", "priority": "P1", "related_branches": ["BP006", "BP007"], "test_focus": "验证剩余次数提示"},
+          {"id": "TP-A011", "name": "登录密码错误5次触发锁定", "source": "L2分支路径", "priority": "P1", "related_branches": ["BP007"], "test_focus": "验证30分钟锁定机制"},
+          {"id": "TP-A012", "name": "注册输入空手机号", "source": "L3异常模板", "priority": "P2", "related_branches": [], "test_focus": "前置条件缺失：空输入"},
+          {"id": "TP-A013", "name": "注册输入超长密码", "source": "L3异常模板", "priority": "P2", "related_branches": [], "test_focus": "输入异常：超长输入"},
+          {"id": "TP-A014", "name": "登录输入空密码", "source": "L3异常模板", "priority": "P2", "related_branches": [], "test_focus": "输入异常：空密码"},
+          {"id": "TP-A015", "name": "注册时短信发送失败", "source": "L3异常模板", "priority": "P2", "related_branches": [], "test_focus": "外部依赖失败：短信服务"},
+          {"id": "TP-A016", "name": "登录时短信发送失败", "source": "L3异常模板", "priority": "P2", "related_branches": [], "test_focus": "外部依赖失败：短信服务"},
+          {"id": "TP-A017", "name": "账户锁定后尝试验证码登录绕过", "source": "L4想象力场景", "priority": "P2", "related_branches": [], "test_focus": "组合交叉：锁定+不同登录方式"},
+          {"id": "TP-A018", "name": "多设备同时登录", "source": "L4想象力场景", "priority": "P3", "related_branches": [], "test_focus": "并发冲突：多设备会话"},
+          {"id": "TP-A019", "name": "验证码有效期内多次使用", "source": "L4想象力场景", "priority": "P3", "related_branches": [], "test_focus": "时间和顺序：验证码重放"},
+          {"id": "TP-A020", "name": "7天免登录Session过期后自动跳转", "source": "L4想象力场景", "priority": "P3", "related_branches": [], "test_focus": "时间和顺序：Session过期"}
+        ]
+      },
+      {
+        "name": "商品浏览",
+        "entry_points": ["EP004", "EP005"],
+        "test_points": [
+          {"id": "TP-B001", "name": "查看商品列表（分页）", "source": "L1主路径", "priority": "P1", "related_branches": [], "test_focus": "验证分页加载"},
+          {"id": "TP-B002", "name": "按分类筛选商品", "source": "L1主路径", "priority": "P1", "related_branches": [], "test_focus": "验证分类筛选"},
+          {"id": "TP-B003", "name": "按价格升序排序", "source": "L1主路径", "priority": "P1", "related_branches": [], "test_focus": "验证价格排序"},
+          {"id": "TP-B004", "name": "按价格降序排序", "source": "L1主路径", "priority": "P1", "related_branches": [], "test_focus": "验证价格排序"},
+          {"id": "TP-B005", "name": "查看有库存商品详情", "source": "L1主路径", "priority": "P1", "related_branches": [], "test_focus": "验证详情展示"},
+          {"id": "TP-B006", "name": "查看缺货商品详情", "source": "L1主路径", "priority": "P1", "related_branches": ["BP016"], "test_focus": "验证缺货标识"},
+          {"id": "TP-B007", "name": "空分类筛选", "source": "L2分支路径", "priority": "P2", "related_branches": [], "test_focus": "验证空结果处理"},
+          {"id": "TP-B008", "name": "翻页操作", "source": "L2分支路径", "priority": "P1", "related_branches": [], "test_focus": "验证翻页功能"},
+          {"id": "TP-B009", "name": "分类+排序组合筛选", "source": "L2分支路径", "priority": "P2", "related_branches": [], "test_focus": "验证组合筛选"},
+          {"id": "TP-B010", "name": "删除商品后查看详情", "source": "L3异常模板", "priority": "P2", "related_branches": [], "test_focus": "数据不存在"},
+          {"id": "TP-B011", "name": "商品列表为空", "source": "L3异常模板", "priority": "P2", "related_branches": [], "test_focus": "空分支处理"},
+          {"id": "TP-B012", "name": "1000并发用户浏览商品列表", "source": "L4想象力场景", "priority": "P3", "related_branches": [], "test_focus": "规模和压力"},
+          {"id": "TP-B013", "name": "商品图片10MB时加载性能", "source": "L4想象力场景", "priority": "P3", "related_branches": [], "test_focus": "规模和压力"}
+        ]
+      },
+      {
+        "name": "购物车",
+        "entry_points": ["EP006", "EP007", "EP008"],
+        "test_points": [
+          {"id": "TP-C001", "name": "添加商品到购物车", "source": "L1主路径", "priority": "P1", "related_branches": [], "test_focus": "验证添加流程"},
+          {"id": "TP-C002", "name": "修改购物车商品数量", "source": "L1主路径", "priority": "P1", "related_branches": [], "test_focus": "验证修改流程"},
+          {"id": "TP-C003", "name": "从购物车删除商品", "source": "L1主路径", "priority": "P1", "related_branches": [], "test_focus": "验证删除流程"},
+          {"id": "TP-C004", "name": "添加时库存不足", "source": "L2分支路径", "priority": "P1", "related_branches": ["BP008"], "test_focus": "验证库存校验"},
+          {"id": "TP-C005", "name": "修改数量超过库存", "source": "L2分支路径", "priority": "P1", "related_branches": ["BP009"], "test_focus": "验证库存上限"},
+          {"id": "TP-C006", "name": "添加购物车时库存为0", "source": "L3异常模板", "priority": "P2", "related_branches": [], "test_focus": "资源不足"},
+          {"id": "TP-C007", "name": "修改数量输入负数", "source": "L3异常模板", "priority": "P2", "related_branches": [], "test_focus": "输入异常"},
+          {"id": "TP-C008", "name": "修改数量输入0", "source": "L3异常模板", "priority": "P2", "related_branches": [], "test_focus": "输入异常"},
+          {"id": "TP-C009", "name": "未登录用户加入购物车", "source": "L3异常模板", "priority": "P2", "related_branches": [], "test_focus": "前置条件缺失"},
+          {"id": "TP-C010", "name": "两人同时添加同一商品", "source": "L3异常模板", "priority": "P2", "related_branches": [], "test_focus": "并发冲突"},
+          {"id": "TP-C011", "name": "同时修改同一购物车商品数量", "source": "L3异常模板", "priority": "P2", "related_branches": [], "test_focus": "并发冲突"},
+          {"id": "TP-C012", "name": "购物车为空时点击结算", "source": "L3异常模板", "priority": "P2", "related_branches": [], "test_focus": "空分支"},
+          {"id": "TP-C013", "name": "购物车添加已删除商品", "source": "L3异常模板", "priority": "P2", "related_branches": [], "test_focus": "数据不存在"},
+          {"id": "TP-C014", "name": "商品下架后购物车仍存在", "source": "L4想象力场景", "priority": "P3", "related_branches": [], "test_focus": "数据全生命周期"},
+          {"id": "TP-C015", "name": "加入购物车1小时后下单（库存已变）", "source": "L4想象力场景", "priority": "P3", "related_branches": [], "test_focus": "时间和顺序"},
+          {"id": "TP-C016", "name": "购物车100件商品结算", "source": "L4想象力场景", "priority": "P3", "related_branches": [], "test_focus": "规模和压力"}
+        ]
+      },
+      {
+        "name": "下单与支付",
+        "entry_points": ["EP009", "EP010", "EP016", "EP017"],
+        "test_points": [
+          {"id": "TP-D001", "name": "提交订单成功", "source": "L1主路径", "priority": "P1", "related_branches": [], "test_focus": "验证下单流程"},
+          {"id": "TP-D002", "name": "支付宝支付成功", "source": "L1主路径", "priority": "P1", "related_branches": ["BP017"], "test_focus": "验证支付宝支付"},
+          {"id": "TP-D003", "name": "微信支付成功", "source": "L1主路径", "priority": "P1", "related_branches": ["BP017"], "test_focus": "验证微信支付"},
+          {"id": "TP-D004", "name": "支付超时自动关闭", "source": "L1主路径", "priority": "P1", "related_branches": ["BP014"], "test_focus": "验证超时机制"},
+          {"id": "TP-D005", "name": "重复支付拦截", "source": "L1主路径", "priority": "P1", "related_branches": ["BP015"], "test_focus": "验证幂等性"},
+          {"id": "TP-D006", "name": "提交订单时库存不足", "source": "L2分支路径", "priority": "P1", "related_branches": ["BP010"], "test_focus": "验证库存校验"},
+          {"id": "TP-D007", "name": "支付失败", "source": "L2分支路径", "priority": "P1", "related_branches": ["BP011"], "test_focus": "验证失败提示"},
+          {"id": "TP-D008", "name": "支付失败后重试成功", "source": "L2分支路径", "priority": "P2", "related_branches": ["BP011"], "test_focus": "验证重试机制"},
+          {"id": "TP-D009", "name": "超时关闭后再次支付", "source": "L2分支路径", "priority": "P2", "related_branches": ["BP014"], "test_focus": "验证关闭后不可支付"},
+          {"id": "TP-D010", "name": "提交订单时地址为空", "source": "L3异常模板", "priority": "P2", "related_branches": [], "test_focus": "输入异常"},
+          {"id": "TP-D011", "name": "提交订单时地址超长", "source": "L3异常模板", "priority": "P2", "related_branches": [], "test_focus": "输入异常"},
+          {"id": "TP-D012", "name": "支付网关超时", "source": "L3异常模板", "priority": "P2", "related_branches": [], "test_focus": "外部依赖失败"},
+          {"id": "TP-D013", "name": "支付网关返回错误", "source": "L3异常模板", "priority": "P2", "related_branches": [], "test_focus": "外部依赖失败"},
+          {"id": "TP-D014", "name": "支付回调和超时同时到达", "source": "L3异常模板", "priority": "P2", "related_branches": [], "test_focus": "并发冲突"},
+          {"id": "TP-D015", "name": "提交订单时网络超时", "source": "L3异常模板", "priority": "P2", "related_branches": [], "test_focus": "超时"},
+          {"id": "TP-D016", "name": "支付过程中断网", "source": "L4想象力场景", "priority": "P2", "related_branches": [], "test_focus": "渐进式假设：断网"},
+          {"id": "TP-D017", "name": "支付回调丢失", "source": "L4想象力场景", "priority": "P2", "related_branches": [], "test_focus": "逆向思考"},
+          {"id": "TP-D018", "name": "支付成功但库存扣减失败", "source": "L4想象力场景", "priority": "P2", "related_branches": [], "test_focus": "逆向思考"},
+          {"id": "TP-D019", "name": "重复点击提交订单按钮", "source": "L4想象力场景", "priority": "P2", "related_branches": [], "test_focus": "反模式学习"},
+          {"id": "TP-D020", "name": "篡改支付金额（前端传0元）", "source": "L4想象力场景", "priority": "P2", "related_branches": [], "test_focus": "多角色视角：攻击者"},
+          {"id": "TP-D021", "name": "重放支付回调请求", "source": "L4想象力场景", "priority": "P2", "related_branches": [], "test_focus": "多角色视角：攻击者"},
+          {"id": "TP-D022", "name": "下单后30分钟卡点支付", "source": "L4想象力场景", "priority": "P3", "related_branches": [], "test_focus": "时间和顺序：超时边界"},
+          {"id": "TP-D023", "name": "1000并发用户同时下单", "source": "L4想象力场景", "priority": "P3", "related_branches": [], "test_focus": "规模和压力"},
+          {"id": "TP-D024", "name": "库存为1时两人同时下单", "source": "L4想象力场景", "priority": "P2", "related_branches": [], "test_focus": "渐进式假设"}
+        ]
+      },
+      {
+        "name": "订单管理",
+        "entry_points": ["EP011", "EP012", "EP013", "EP014"],
+        "test_points": [
+          {"id": "TP-E001", "name": "查看订单列表", "source": "L1主路径", "priority": "P1", "related_branches": [], "test_focus": "验证列表展示"},
+          {"id": "TP-E002", "name": "查看订单详情", "source": "L1主路径", "priority": "P1", "related_branches": [], "test_focus": "验证详情展示"},
+          {"id": "TP-E003", "name": "取消未支付订单", "source": "L1主路径", "priority": "P1", "related_branches": [], "test_focus": "验证取消流程"},
+          {"id": "TP-E004", "name": "确认收货", "source": "L1主路径", "priority": "P1", "related_branches": [], "test_focus": "验证收货流程"},
+          {"id": "TP-E005", "name": "尝试取消已支付订单", "source": "L2分支路径", "priority": "P1", "related_branches": ["BP012"], "test_focus": "验证状态拦截"},
+          {"id": "TP-E006", "name": "尝试取消已发货订单", "source": "L2分支路径", "priority": "P1", "related_branches": ["BP012"], "test_focus": "验证状态拦截"},
+          {"id": "TP-E007", "name": "尝试取消已完成订单", "source": "L2分支路径", "priority": "P1", "related_branches": ["BP012"], "test_focus": "验证状态拦截"},
+          {"id": "TP-E008", "name": "用户A操作用户B的订单", "source": "L3异常模板", "priority": "P2", "related_branches": [], "test_focus": "权限拒绝"},
+          {"id": "TP-E009", "name": "查看已删除订单详情", "source": "L3异常模板", "priority": "P2", "related_branches": [], "test_focus": "数据不存在"},
+          {"id": "TP-E010", "name": "无订单时查看订单详情", "source": "L3异常模板", "priority": "P2", "related_branches": [], "test_focus": "空分支"},
+          {"id": "TP-E011", "name": "对已取消订单再次取消", "source": "L3异常模板", "priority": "P2", "related_branches": [], "test_focus": "状态非法"},
+          {"id": "TP-E012", "name": "对未发货订单确认收货", "source": "L3异常模板", "priority": "P2", "related_branches": [], "test_focus": "状态非法"},
+          {"id": "TP-E013", "name": "订单完成后物流信息更新", "source": "L4想象力场景", "priority": "P3", "related_branches": [], "test_focus": "数据全生命周期"},
+          {"id": "TP-E014", "name": "10000条订单时列表加载", "source": "L4想象力场景", "priority": "P3", "related_branches": [], "test_focus": "规模和压力"},
+          {"id": "TP-E015", "name": "数据库主从延迟导致订单状态不一致", "source": "L4想象力场景", "priority": "P3", "related_branches": [], "test_focus": "多角色视角：运维"}
+        ]
+      },
+      {
+        "name": "退款",
+        "entry_points": ["EP015"],
+        "test_points": [
+          {"id": "TP-F001", "name": "申请退款成功（已支付未发货）", "source": "L1主路径", "priority": "P1", "related_branches": [], "test_focus": "验证退款流程"},
+          {"id": "TP-F002", "name": "未支付订单申请退款", "source": "L2分支路径", "priority": "P1", "related_branches": ["BP013"], "test_focus": "验证资格校验"},
+          {"id": "TP-F003", "name": "已发货订单申请退款", "source": "L2分支路径", "priority": "P1", "related_branches": ["BP013"], "test_focus": "验证资格校验"},
+          {"id": "TP-F004", "name": "已完成订单申请退款", "source": "L2分支路径", "priority": "P1", "related_branches": ["BP013"], "test_focus": "验证资格校验"},
+          {"id": "TP-F005", "name": "已退款订单再次申请退款", "source": "L2分支路径", "priority": "P1", "related_branches": ["BP013"], "test_focus": "验证重复退款拦截"},
+          {"id": "TP-F006", "name": "原支付渠道不可用时退款", "source": "L3异常模板", "priority": "P2", "related_branches": [], "test_focus": "外部依赖失败"},
+          {"id": "TP-F007", "name": "退款过程中再次申请退款", "source": "L3异常模板", "priority": "P2", "related_branches": [], "test_focus": "并发冲突"},
+          {"id": "TP-F008", "name": "退款后又确认收货", "source": "L3异常模板", "priority": "P2", "related_branches": [], "test_focus": "状态非法"},
+          {"id": "TP-F009", "name": "退款金额与订单金额不一致", "source": "L4想象力场景", "priority": "P2", "related_branches": [], "test_focus": "反模式学习"},
+          {"id": "TP-F010", "name": "退款申请后立即再次申请", "source": "L4想象力场景", "priority": "P3", "related_branches": [], "test_focus": "时间和顺序：幂等性"}
+        ]
+      }
+    ]
+  },
+  "summary": {
+    "total_modules": 6,
+    "total_test_points": 94,
+    "by_priority": {"P1": 38, "P2": 39, "P3": 17},
+    "by_source": {"L1": 22, "L2": 23, "L3": 34, "L4": 15}
+  }
+}
