@@ -30,18 +30,24 @@ git clone https://github.com/HardToThinkAUsername/test-case-engine.git
 打开你的AI编程助手（Claude Code / OpenCode / 其他），输入：
 
 ```
-我有一份需求文档，路径是：D:\我的需求文档.txt
+我有一份需求文档，路径是：D:\我的需求文档.docx
 请帮我按照 test-case-engine/prompts/extraction-guide.md 的流程，
 自动生成测试用例。
 ```
 
-### 第4步：等待结果
+### 第4步：和AI对话
 
-AI会自动：
-1. 分析需求文档
-2. 识别所有业务功能
-3. 生成测试用例
-4. 输出Excel文件
+AI会引导你完成整个流程：
+
+1. **AI分析需求** → 生成业务树
+2. **你确认或调整** → "把注册拆成手机号和邮箱"
+3. **AI评审需求** → 发现问题
+4. **你确认或修改** → "密码锁定改为1小时"
+5. **AI生成大纲** → 你确认
+6. **AI生成用例** → 你确认
+7. **AI导出Excel** → 完成
+
+整个过程是**对话式的**，你可以随时调整。
 
 ## 看看效果
 
@@ -53,7 +59,7 @@ AI会自动：
 A: 需要安装一个。推荐使用 Claude Code（https://claude.ai/download）。
 
 **Q: 我的需求文档是Word格式怎么办？**
-A: 用Word打开，另存为.txt格式，再提供给AI。
+A: AI可以自动处理.docx格式。直接告诉AI文件路径即可，AI会自动转换。或者直接复制粘贴内容到对话中。
 
 **Q: 生成的测试用例在哪里？**
 A: 默认保存在 `.test-case/test_cases.xlsx`。
