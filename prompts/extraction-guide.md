@@ -21,6 +21,69 @@ description: 从需求文档到测试用例的完整流程指南
 1. 检查`.test-case/constitution.md`是否存在
 2. 加载宪法文件
 3. 确认需求文档路径
+4. **处理文档格式**（如果不是文本格式）：
+
+**文档格式处理规则**：
+
+| 格式 | 处理方式 |
+|------|----------|
+| .md / .txt | 直接读取 |
+| .docx | 需要转换为文本 |
+| .pdf | 需要转换为文本 |
+| .doc（旧版Word） | 需要转换为文本 |
+
+**.docx格式处理**：
+
+方式1：建议用户转换（最简单）
+```
+请将.docx文件另存为.txt或.md格式，然后再提供给我。
+```
+
+方式2：使用Python提取文本
+```python
+# 安装依赖：pip install python-docx
+from docx import Document
+
+doc = Document('需求文档.docx')
+text = '\n'.join([para.text for para in doc.paragraphs])
+
+# 保存为txt文件
+with open('需求文档.txt', 'w', encoding='utf-8') as f:
+    f.write(text)
+```
+
+方式3：请用户复制粘贴
+```
+由于.docx是二进制格式，我无法直接读取。
+请将需求文档内容复制粘贴到这里，我来帮你分析。
+```
+
+**.pdf格式处理**：
+
+方式1：请用户复制粘贴（最简单）
+```
+请将PDF中的需求文档内容复制粘贴到这里。
+```
+
+方式2：使用Python提取文本
+```python
+# 安装依赖：pip install pdfplumber
+import pdfplumber
+
+with pdfplumber.open('需求文档.pdf') as pdf:
+    text = '\n'.join([page.extract_text() for page in pdf.pages])
+
+# 保存为txt文件
+with open('需求文档.txt', 'w', encoding='utf-8') as f:
+    f.write(text)
+```
+
+**处理流程**：
+1. 识别文档格式
+2. 如果是文本格式（.md/.txt）→ 直接读取
+3. 如果是非文本格式（.docx/.pdf）→ 转换为.txt → 再读取
+4. 转换后保存到 `.test-case/` 目录
+5. 继续执行后续步骤
 
 ## Execution Steps
 
