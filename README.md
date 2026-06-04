@@ -20,8 +20,10 @@ git clone https://github.com/HardToThinkAUsername/test-case-engine.git
 
 支持的格式：
 - `.md` 或 `.txt` → 直接用
-- `.docx` → 需要先另存为 `.txt` 格式
-- `.pdf` → 需要复制粘贴内容到 `.txt` 文件
+- `.docx` → AI会自动帮你转换（需要安装python-docx库）
+- `.pdf` → AI会自动帮你提取文本（需要安装pdfplumber库）
+
+**或者最简单的方式**：直接把需求文档内容复制粘贴到对话中
 
 ### 第3步：告诉AI
 
