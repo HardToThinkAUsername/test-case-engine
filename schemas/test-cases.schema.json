@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://test-case-engine/schemas/test-cases.json",
+  "title": "Test Cases Output",
+  "description": "测试用例引擎完整输出结构",
+  "type": "object",
+  "required": ["metadata", "test_cases", "coverage_report"],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "required": ["project_name", "document_source", "created_at", "total_cases"],
+      "properties": {
+        "project_name": { "type": "string", "description": "项目名称" },
+        "document_source": { "type": "string", "description": "需求文档来源" },
+        "created_at": { "type": "string", "format": "date", "description": "创建日期 YYYY-MM-DD" },
+        "total_cases": { "type": "integer", "minimum": 1, "description": "用例总数" }
+      }
+    },
+    "test_cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/testCase" }
+    },
+    "coverage_report": {
+      "type": "object",
+      "required": ["L1", "L2", "L3", "total_cases"],
+      "properties": {
+        "L1": {
+          "type": "object",
+          "required": ["covered", "total", "rate"],
+          "properties": {
+            "covered": { "type": "integer" },
+            "total": { "type": "integer" },
+            "rate": { "type": "string", "pattern": "^\\d+%$" }
+          }
+        },
+        "L2": {
+          "type": "object",
+          "required": ["covered", "total", "rate"],
+          "properties": {
+            "covered": { "type": "integer" },
+            "total": { "type": "integer" },
+            "rate": { "type": "string", "pattern": "^\\d+%$" }
+          }
+        },
+        "L3": {
+          "type": "object",
+          "required": ["covered", "total", "rate"],
+          "properties": {
+            "covered": { "type": "integer" },
+            "total": { "type": "integer" },
+            "rate": { "type": "string", "pattern": "^\\d+%$" }
+          }
+        },
+        "L4": {
+          "type": "object",
+          "properties": {
+            "cases": { "type": "integer" }
+          }
+        },
+        "total_cases": { "type": "integer" }
+      }
+    }
+  },
+  "$defs": {
+    "testCase": {
+      "type": "object",
+      "required": [
+        "id", "title", "priority", "type", "test_type",
+        "module", "source", "preconditions", "steps",
+        "expected_result", "related_requirement"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^TC-[A-Z0-9]+-\\d{3}$",
+          "description": "用例编号，格式：TC-{模块}{功能}-{序号}，如 TC-M1F1-001"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 100,
+          "description": "用例标题，简洁描述测试点"
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["P1", "P2", "P3"],
+          "description": "P1=核心流程，P2=重要分支/异常，P3=边界/想象力"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["positive", "branch", "exception", "boundary"],
+          "description": "positive=正向用例，branch=分支用例，exception=异常用例，boundary=边界用例"
+        },
+        "test_type": {
+          "type": "string",
+          "enum": ["functional", "performance"],
+          "description": "functional=功能测试，performance=性能测试"
+        },
+        "module": {
+          "type": "string",
+          "minLength": 2,
+          "description": "所属模块，如 M1-申请单管理"
+        },
+        "source": {
+          "type": "string",
+          "minLength": 2,
+          "description": "来源层级和入口点，如 L1主路径 | 入口点EP001"
+        },
+        "preconditions": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 },
+          "description": "前置条件列表"
+        },
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 },
+          "description": "操作步骤列表，建议带编号"
+        },
+        "expected_result": {
+          "type": "string",
+          "minLength": 1,
+          "description": "预期结果"
+        },
+        "related_requirement": {
+          "type": "string",
+          "minLength": 1,
+          "description": "关联需求条目"
+        },
+        "test_data": {
+          "type": "string",
+          "description": "测试数据说明（可选）"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

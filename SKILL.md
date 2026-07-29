@@ -130,8 +130,10 @@ triggers:
 ```
 读 .test-case/test_cases.json
 → 调用 src/excel_exporter.py 中的 export_to_excel()
-→ 生成格式化 Excel：
-   冻结首行、P1 用例红色背景、自动筛选、10 列标准格式
+→ 生成格式化 Excel（3 个 Sheet）：
+    Sheet 1「测试用例明细」— 全量用例，冻结首行，自动筛选，优先级着色
+    Sheet 2「统计汇总」— 优先级/模块/类型/来源分布
+    Sheet 3「按模块」— 用例按模块分组展示
 → 输出文件路径
 ```
 
@@ -211,19 +213,12 @@ triggers:
 
 ```
 prompts/
-├── constitution.md       # 核心原则（最高优先级，每次先读这个）
-├── extraction-guide.md   # 完整执行指南（Phase 1-4 详细步骤）
-└── commands/             # 各阶段独立指令
-    ├── init.md
-    ├── model.md
-    ├── review.md
-    ├── outline.md
-    ├── generate.md
-    └── export.md
+├── constitution.md              # 核心原则（最高优先级，每次先读这个）
+└── extraction-guide.md          # 完整执行指南（Phase 1-4 详细步骤）
+schemas/
+└── test-cases.schema.json       # 测试用例输出 JSON Schema（生成后校验）
 src/
-├── cli.py                # CLI 入口（可选，typer 实现）
-├── session_service.py    # 状态文件管理
-└── excel_exporter.py     # Excel 导出（openpyxl）
+└── excel_exporter.py            # Excel 导出（openpyxl）
 examples/
 ├── online-shop-prd.md    # 示例需求文档
 ├── validation-result.md  # 验证记录
