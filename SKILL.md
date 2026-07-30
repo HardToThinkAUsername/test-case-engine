@@ -18,8 +18,9 @@ triggers:
 
 | 用户想做什么 | AI 执行什么 |
 |-------------|-----------|
-| 初始化项目 | 读 `prompts/constitution.md` → 适配项目名 → 保存到 `.test-case/constitution.md` |
-| 分析需求文档 | 读 `prompts/extraction-guide.md` Phase 1 → 构建业务树 → 保存到 `.test-case/business_tree.json` |
+| 初始化项目 | 读 `prompts/constitution.md` → 适配项目名 → 保存到 `.test-case/constitution.md` → 自动继续 |
+| 分析需求文档 | 读 `prompts/extraction-guide.md` Phase 1 → 构建业务树 → 新开 Agent 追问评审 → 循环直到收敛 → 保存到 `.test-case/business_tree.json` |
+| 确认业务树 | 展示业务树摘要 → **等待用户确认** → 支持用户修改（自然语言/JSON/3D交互） |
 | 评审需求质量 | 读 `prompts/extraction-guide.md` Phase 2 → 5 维度评审 → 循环直到用户通过 |
 | 生成测试大纲 | 读 `prompts/extraction-guide.md` Phase 3 → 按模块组织测试点 → 保存到 `.test-case/outline.json` |
 | 生成测试用例 | 读 `prompts/extraction-guide.md` Phase 4 → 逐个测试点生成用例 → 保存到 `.test-case/test_cases.json` |
@@ -31,7 +32,7 @@ triggers:
 
 以下行为**绝对禁止**：
 
-- ❌ 用户没确认当前阶段结果就进入下一阶段
+- ❌ 业务树构建完成前要求用户确认
 - ❌ 需求文档不完整就直接说"无法生成"
 - ❌ 跳过 L1-L3 的结构化覆盖，直接让 AI 自由发挥
 - ❌ 不读 `prompts/constitution.md` 就开始执行
@@ -39,24 +40,25 @@ triggers:
 - ❌ 生成用例后不验证就保存
 - ❌ 用户说"通过"之前就标记 review_result 为 approved
 - ❌ 跳过广度追问环节（必须连续 2 轮无新增才能结束）
+- ❌ 跳过业务树追问评审（必须新开 agent 追问到无法优化为止）
 
 ---
 
-## 执行流程（必须按顺序，每步必须等用户确认）
+## 执行流程（必须按顺序）
 
-### 1. Init — 初始化
+### 1. Init — 初始化（自动执行，无需确认）
 
 ```
 读 prompts/constitution.md
 → 根据用户提供的项目名称适配
 → 保存到 .test-case/constitution.md
-→ 展示完成信息，等待用户提供需求文档
+→ 自动进入 Phase 2 业务建模
 ```
 
 **依赖**：无
-**确认**：展示项目名称和宪法文件路径，等待用户说"继续"或提供需求文档
+**确认**：**不需要用户确认**，自动继续
 
-### 2. Model — 业务建模
+### 2. Model — 业务建模（自动执行，无需确认）
 
 ```
 读 prompts/extraction-guide.md Phase 1（完整执行 Step 1-5）
@@ -66,13 +68,66 @@ triggers:
 → Step 4: 识别所有分支点（条件分支、异常分支、状态分支、空分支）
 → Step 5: 构建业务树，保存到 .test-case/business_tree.json
 → Step 6: 生成 L1-L4 场景，广度追问直到连续 2 轮无新增
-→ 展示业务树摘要（入口点数、分支点数、各层场景数），等待用户确认
+→ 自动进入 Phase 2.5 业务树追问评审
 ```
 
 **依赖**：`.test-case/constitution.md` 存在
-**确认**：展示摘要，等待用户说"继续"、"可以了" 或提出调整
+**确认**：**不需要用户确认**，自动继续
 
-### 3. Review — 需求评审（循环）
+### 2.5. Interrogate — 业务树追问评审（自动执行，必须新开 Agent）
+
+```
+目标：用独立视角评审业务树，找出所有遗漏和可优化点
+
+执行方式：
+→ 新开一个独立的 Agent（隔离上下文，不受主流程影响）
+→ 该 Agent 读取 .test-case/business_tree.json
+→ 从以下角度逐项追问：
+
+  1. 入口点是否完整？对比需求文档逐段检查，有没有漏掉的功能入口？
+  2. 分支覆盖是否完整？每个入口点的每个分支走向是否都覆盖了？
+  3. 异常场景是否充分？L3 的 10 类异常模板是否在每个节点都匹配了？
+  4. 隐含逻辑是否挖掘？数据来源、配置依赖、外部系统交互是否都明确了？
+  5. 边界条件是否定义？每个参数的边界值、空值、超长值是否覆盖？
+  6. 业务规则是否完整？跨模块的约束、状态流转、权限控制是否都体现？
+
+→ 输出问题列表，每项标注：严重程度（高/中/低）、具体位置、改进建议
+→ 主流程根据问题列表自动更新业务树
+→ 更新后再次新开 Agent 追问
+→ 循环直到 Agent 明确回答"无法继续优化"或"未发现新问题"
+→ 至少执行 2 轮追问
+```
+
+**依赖**：`.test-case/business_tree.json` 存在
+**确认**：**不需要用户确认**，追问收敛后自动进入 Phase 3 用户确认
+
+### 3. Confirm — 业务树确认（首次用户交互）
+
+```
+展示业务树摘要：
+  - 入口点数量及列表
+  - 分支点数量
+  - L1-L4 各层场景数
+  - 追问评审轮数及解决的问题数
+
+展示业务树详情（建议用 3D 可视化或结构化文本）
+→ 等待用户确认
+
+用户可能的操作：
+  ├─ "通过"/"继续" → 进入 Phase 4 需求评审
+  ├─ 提出修改意见 → 理解意图 → 更新业务树 → 重新展示
+  └─ 用户手动编辑 business_tree.json → 重新加载 → 重新展示
+
+支持用户修改的方式：
+  - 自然语言描述修改（如"增加XX入口点"、"删除YY分支"）
+  - 直接编辑 JSON 文件
+  - 在 3D 业务树上点击节点增删改
+```
+
+**依赖**：`.test-case/business_tree.json` 存在且追问已收敛
+**确认**：**首次需要用户确认**，支持反复修改直到用户满意
+
+### 4. Review — 需求评审（循环）
 
 ```
 读 .test-case/business_tree.json
@@ -93,7 +148,7 @@ triggers:
 **依赖**：`.test-case/business_tree.json` 存在
 **确认**：每次评审后展示问题列表，等待用户反馈。**用户说"通过"之前绝不标记为 approved**
 
-### 4. Outline — 测试大纲
+### 5. Outline — 测试大纲
 
 ```
 读 .test-case/business_tree.json + .test-case/review_result.json
@@ -108,7 +163,7 @@ triggers:
 **依赖**：`review_result.json` 存在且 status 为 approved
 **确认**：展示摘要，等待用户确认
 
-### 5. Generate — 生成用例
+### 6. Generate — 生成用例
 
 ```
 读 .test-case/outline.json + .test-case/business_tree.json
@@ -125,7 +180,7 @@ triggers:
 **依赖**：`.test-case/outline.json` 存在
 **确认**：展示覆盖率报告，等待用户确认
 
-### 6. Export — 导出 Excel
+### 7. Export — 导出 Excel
 
 ```
 读 .test-case/test_cases.json
